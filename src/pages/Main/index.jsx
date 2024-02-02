@@ -1,7 +1,5 @@
-import React from "react";
-
-function MainPage() {
-  return <div>MainPage</div>;
+function Projects() {
+  return <div>Projects</div>;
 }
 
-export default MainPage;
+export default Projects;

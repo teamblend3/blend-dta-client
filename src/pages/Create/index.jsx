@@ -1,7 +1,5 @@
-import React from "react";
-
-function CreatePage() {
-  return <div>CreatePage</div>;
+function CreateProject() {
+  return <div>CreateProject</div>;
 }
 
-export default CreatePage;
+export default CreateProject;

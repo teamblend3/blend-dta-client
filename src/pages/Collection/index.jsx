@@ -1,7 +1,5 @@
-import React from "react";
-
-function CollectionPage() {
-  return <div>CollectionPage</div>;
+function Collection() {
+  return <div>Collection</div>;
 }
 
-export default CollectionPage;
+export default Collection;
