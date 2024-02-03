@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-import LoginButton from "../Button/LoginButton";
-import HomeButton from "../Button/HomeButton";
+import LinkButtonItem from "../Button/LinkButtonItem";
 import ProfileImage from "../Button/ProfileImage";
 import DarkLogo from "../../assets/images/teamblend_logo.png";
 import LightLogo from "../../assets/images/teamblend_light_logo.png";
@@ -24,12 +23,10 @@ function Header() {
               alt="Blend Logo"
             />
           </Link>
-          <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-500 sm:mb-0 text-text">
-            <li>
-              <LoginButton />
-              <HomeButton />
-              <ProfileImage />
-            </li>
+          <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-500 sm:mb-0 text-text space-x-4">
+            <LinkButtonItem to="/login">Login</LinkButtonItem>
+            <LinkButtonItem to="/projects">Home</LinkButtonItem>
+            <ProfileImage />
           </ul>
         </div>
       </div>

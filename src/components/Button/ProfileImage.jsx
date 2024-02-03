@@ -1,20 +1,22 @@
+import { useState } from "react";
+
 import ButtonList from "./ButtonList";
-import usePopUpStore from "../../stores/usePopUpStroe";
 
 function ProfileImage() {
-  const isPopupVisible = usePopUpStore(state => state.isPopupVisible);
-  const togglePopup = usePopUpStore(state => state.togglePopup);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="relative inline-block">
+    <li>
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded-md"
-        onClick={togglePopup}
+        onMouseOver={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
       >
         Profile Image
+        {isHovered && <ButtonList />}
       </button>
-      {isPopupVisible && <ButtonList />}
-    </div>
+    </li>
   );
 }
 
