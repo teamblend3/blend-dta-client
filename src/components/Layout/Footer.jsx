@@ -9,7 +9,7 @@ function Footer() {
   const { isDark, toggleTheme } = useThemeStore();
 
   return (
-    <footer className="w-full bg-background-50 px-4 h-28 fixed bottom-0">
+    <footer className="w-full bg-background-50 fixed h-24 px-4">
       <div className="w-full max-w-screen-xl mx-auto">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
@@ -55,7 +55,7 @@ function Footer() {
             </li>
           </ul>
         </div>
-        <hr className="my-2 sm:mx-auto border-text-950 lg:my-3" />
+        <hr className="sm:mx-auto border-text-950 lg:my-1" />
         <span className="block text-sm text-text-950 sm:text-center text-text">
           © 2024{" "}
           <Link to="/" className="hover:underline uppercase">
