@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
-import ButtonList from "./ButtonList";
+import PopupContainer from "./PopupContainer";
 
 function ProfileImage() {
   const [isHovered, setIsHovered] = useState(false);
@@ -8,13 +9,17 @@ function ProfileImage() {
   return (
     <li>
       <button
-        className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        className="flex items-center text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+        id="user-menu-button"
+        aria-expanded="false"
+        data-dropdown-toggle="user-dropdown"
+        data-dropdown-placement="bottom"
         onMouseOver={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsHovered(true)}
       >
-        Profile Image
-        {isHovered && <ButtonList />}
+        <FaUserCircle size={40} />
+        {isHovered && <PopupContainer />}
       </button>
     </li>
   );

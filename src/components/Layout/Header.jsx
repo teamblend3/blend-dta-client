@@ -12,7 +12,7 @@ function Header() {
   const { isAuth } = useAuthStore();
 
   return (
-    <header className="w-full bg-background-50 px-4 fixed border-b-2 border-b-accent-900 dark:border-b-accent-500 shadow-accent-900 dark:shadow-accent-500 shadow-sm">
+    <header className="w-full bg-background-50 px-4 fixed border-b-2 border-b-accent-900 dark:border-b-accent-500 shadow-accent-900 dark:shadow-accent-500 shadow-sm z-10">
       <div className="w-full max-w-screen-xl mx-auto">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
