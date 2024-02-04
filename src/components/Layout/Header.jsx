@@ -5,13 +5,15 @@ import ProfileImage from "../Button/ProfileImage";
 import DarkLogo from "../../assets/images/teamblend_logo.png";
 import LightLogo from "../../assets/images/teamblend_light_logo.png";
 import useThemeStore from "../../stores/useThemeStore";
+import useAuthStore from "../../stores/useAuthStore";
 
 function Header() {
-  const { isDark, toggleTheme } = useThemeStore();
+  const { isDark } = useThemeStore();
+  const { isAuth } = useAuthStore();
 
   return (
-    <header className="w-full bg-white px-4 bg-background">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+    <header className="w-full bg-background-50 px-4 fixed border-b-2 border-b-accent-900 dark:border-b-accent-500 shadow-accent-900 dark:shadow-accent-500 shadow-sm">
+      <div className="w-full max-w-screen-xl mx-auto">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
             to="/"
@@ -23,10 +25,12 @@ function Header() {
               alt="Blend Logo"
             />
           </Link>
-          <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-500 sm:mb-0 text-text space-x-4">
-            <LinkButtonItem to="/login">Login</LinkButtonItem>
-            <LinkButtonItem to="/projects">Home</LinkButtonItem>
-            <ProfileImage />
+          <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-text-950 sm:mb-0 text-text space-x-4">
+            {isAuth ? (
+              <ProfileImage />
+            ) : (
+              <LinkButtonItem to="/login">Login</LinkButtonItem>
+            )}
           </ul>
         </div>
       </div>
