@@ -1,9 +1,9 @@
 import LinkButtonItem from "./LinkButtonItem";
 
-function ButtonList() {
+function PopupContainer() {
   return (
-    <div className="absolute bg-white px-4 bg-background border p-2 mt-2 rounded-md">
-      <ul>
+    <div className="absolute top-12 px-10 bg-background-200 border p-2 rounded-md h-40 z-20">
+      <ul className="flex flex-col justify-evenly h-full">
         <LinkButtonItem to="/profile">Profile</LinkButtonItem>
         <LinkButtonItem to="/projects">Projects</LinkButtonItem>
         <LinkButtonItem to="/">Logout</LinkButtonItem>
@@ -12,4 +12,4 @@ function ButtonList() {
   );
 }
 
-export default ButtonList;
+export default PopupContainer;
