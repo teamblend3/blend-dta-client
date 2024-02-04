@@ -9,7 +9,7 @@ function Layout() {
   return (
     <div className={isDark ? "dark" : ""}>
       <Header />
-      <main className="mx-auto max-w-screen-xl px-10 pt-16 pb-20">
+      <main className="mx-auto min-h-[100vh] bg-background-50 w-full pt-24 pb-32">
         <Outlet />
       </main>
       <Footer />
