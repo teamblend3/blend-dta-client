@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function FloatingInput({ type, name, label }) {
+function FloatingInput({ type, name, label, value, handleChange }) {
   return (
     <div className="relative z-0 mb-5 group">
       <input
@@ -9,6 +9,9 @@ function FloatingInput({ type, name, label }) {
         id={name}
         className="block py-2.5 px-0 w-full text-md text-text-950 bg-transparent border-0 border-b-2 border-text appearance-none focus:outline-none focus:ring-0 focus:border-primary-400 peer"
         placeholder=" "
+        autoComplete="false"
+        value={value}
+        onChange={handleChange}
         required
       />
       <label
@@ -25,6 +28,8 @@ FloatingInput.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default FloatingInput;
