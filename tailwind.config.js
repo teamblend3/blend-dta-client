@@ -6,6 +6,19 @@ export default {
     extend: {},
     colors: {
       transparent: "transparent",
+      warn: {
+        50: "var(--warn-50)",
+        100: "var(--warn-100)",
+        200: "var(--warn-200)",
+        300: "var(--warn-300)",
+        400: "var(--warn-400)",
+        500: "var(--warn-500)",
+        600: "var(--warn-600)",
+        700: "var(--warn-700)",
+        800: "var(--warn-800)",
+        900: "var(--warn-900)",
+        950: "var(--warn-950)",
+      },
       text: {
         50: "var(--text-50)",
         100: "var(--text-100)",
