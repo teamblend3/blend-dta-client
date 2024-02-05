@@ -1,41 +1,28 @@
 import MongoDbLogo from "../../assets/images/mongodb_logo.png";
 import GoogleSheetsLogo from "../../assets/images/google_sheets_logo.png";
+import ServiceInfo from "../../components/Info/ServiceInfo";
 
 function Home() {
   return (
-    <div className="w-7/12 xl:flex flex-cole items-center space-x-20 xl:w-8/12 2xl:w-6/12 mx-auto py-20 max-w-screen-xl">
+    <div className="w-7/12 xl:flex items-center space-x-20 xl:w-8/12 2xl:w-6/12 mx-auto py-20 max-w-screen-xl">
       <div className="w-7/12">
-        <h2 className="text-3xl text-text-800 font-bold mb-4">TeamBlend</h2>
-        <p className="text-xl text-text-700">
-          Our service seamlessly integrates your MongoDB database with Google
-          Sheets.
-        </p>
+        <h2 className="text-3xl text-text-800 font-bold mb-5">teamBlend</h2>
+        <ServiceInfo text="Our service seamlessly integrates your MongoDB database with Google Sheets." />
         <br />
-        <p className="text-xl text-text-700">
-          You don&apos;t need to know anything about databases!
-        </p>
+        <ServiceInfo text="You don't need to know anything about databases!" />
         <br />
-        <p className="text-xl text-text-700">
-          TeamBlend allows you to experience a secure, bi-directional connection
-          without any database knowledge.
-        </p>
+        <ServiceInfo text="TeamBlend allows you to experience a secure, bi-directional connection without any database knowledge." />
         <br />
-        <p className="text-xl text-text-700">
-          By using our system, you can work with data in your database through
-          Google Sheets, and your work in Google Sheets is automatically updated
-          in your database.
-        </p>
+        <ServiceInfo text="By using our system, you can work with data in your database through Google Sheets, and your work in Google Sheets is automatically updated in your database." />
         <br />
-        <p className="text-xl text-text-700">
-          Log In now and experience the complete convenience!
-        </p>
+        <ServiceInfo text="Log In now and experience the complete convenience!" />
       </div>
       <div className="flex w-5/12 gap-10 items-center">
         <div className="w-full text-center">
-          <img src={MongoDbLogo} className="" alt="MongoDB Logo" />
+          <img src={MongoDbLogo} alt="MongoDB Logo" />
         </div>
         <div className="w-full text-center">
-          <img src={GoogleSheetsLogo} className="" alt="GoogleSheets Logo" />
+          <img src={GoogleSheetsLogo} alt="GoogleSheets Logo" />
         </div>
       </div>
     </div>
