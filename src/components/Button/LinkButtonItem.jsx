@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 function LinkButtonItem({ to, children }) {
   return (
     <li>
-      <button>
-        <Link to={to}>{children}</Link>
-      </button>
+      <Link to={to}>{children}</Link>
     </li>
   );
 }
