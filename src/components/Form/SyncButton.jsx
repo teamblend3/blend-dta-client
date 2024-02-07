@@ -8,7 +8,7 @@ function SyncButton({ type, children, handleClick }) {
       className="text-text-950 bg-secondary-400 hover:bg-secondary-300 focus:ring-4 focus:outline-none focus:ring-secondary font-medium rounded-md text-sm w-full sm:w-auto px-6 py-2.5 text-center hover:-translate-y-0.5 hover:shadow-xl transform transition-transform ease-in-out duration-150"
       onClick={handleClick}
     >
-      <span className="flex justify-center items-center gap-1">
+      <span className="flex justify-center items-center font-bold gap-1">
         <AiOutlineSync className="font-bold text-base" />
         {children}
       </span>

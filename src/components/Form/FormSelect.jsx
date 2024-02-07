@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 
-function FormSelect({ id, options }) {
+function FormSelect({ id, options, disabled }) {
   return (
     <select
       id={id}
       className="bg-accent-500 border border-accent-300 text-accent-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      disabled={disabled}
     >
       {options.map(option => (
         <option value={option.name} key={option.name}>
@@ -26,6 +27,7 @@ FormSelect.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default FormSelect;
