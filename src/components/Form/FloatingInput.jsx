@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 function FloatingInput({ type, name, label, value, handleChange }) {
   return (
-    <div className="relative z-0 mb-5 group">
+    <div className="relative z-0 mb-5">
       <input
         type={type}
         name={name}
