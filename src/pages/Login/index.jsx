@@ -8,16 +8,14 @@ import useAuthStore from "../../stores/useAuthStore";
 function Login() {
   const { setUser } = useAuthStore();
   const googleProvider = new GoogleAuthProvider();
+  googleProvider.addScope(import.meta.env.VITE_GOOGLE_SHEET_SCOPE);
 
   const handleGoogleLogin = async () => {
     const result = await signInWithPopup(firebaseAuth, googleProvider);
-    console.log(result);
-
     const {
       user: { email, displayName, photoURL, uid },
       _tokenResponse: { oauthAccessToken, refreshToken },
     } = result;
-
     const userInfoObject = {
       email,
       displayName,
@@ -26,7 +24,6 @@ function Login() {
       oauthAccessToken,
       oauthRefreshToken: refreshToken,
     };
-
     const response = await axios.post("/api/users/login", userInfoObject);
 
     return response;
