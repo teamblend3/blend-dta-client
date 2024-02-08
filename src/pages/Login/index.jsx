@@ -6,14 +6,16 @@ import { firebaseAuth } from "../../utils/firebaseAuth";
 import useAuthStore from "../../stores/useAuthStore";
 
 function Login() {
-  const { setUserInfo, setLogin } = useAuthStore();
+  const { setUser } = useAuthStore();
   const googleProvider = new GoogleAuthProvider();
 
   const handleGoogleLogin = async () => {
     const result = await signInWithPopup(firebaseAuth, googleProvider);
+    console.log(result);
 
     const {
       user: { email, displayName, photoURL, uid },
+      _tokenResponse: { oauthAccessToken, refreshToken },
     } = result;
 
     const userInfoObject = {
@@ -21,6 +23,8 @@ function Login() {
       displayName,
       photoURL,
       uid,
+      oauthAccessToken,
+      oauthRefreshToken: refreshToken,
     };
 
     const response = await axios.post("/api/users/login", userInfoObject);
@@ -33,8 +37,7 @@ function Login() {
     onSuccess: result => {
       const { data } = result;
 
-      setLogin();
-      setUserInfo(data.userInfo);
+      setUser(data.userInfo);
     },
   });
 

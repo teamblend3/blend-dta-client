@@ -5,11 +5,11 @@ import DarkLogo from "../../assets/images/teamblend_logo.png";
 import LightLogo from "../../assets/images/teamblend_light_logo.png";
 import useThemeStore from "../../stores/useThemeStore";
 import useAuthStore from "../../stores/useAuthStore";
-import useAuthStatus from "../../hooks/useAuthStrore";
+import useAuthStatus from "../../hooks/useAuthStore";
 
 function Header() {
   const { isDark } = useThemeStore();
-  const { isAuth } = useAuthStore();
+  const { userInfo } = useAuthStore();
   const { isLoading } = useAuthStatus();
 
   return (
@@ -28,7 +28,7 @@ function Header() {
           </Link>
           {!isLoading && (
             <ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-text-950 sm:mb-0 text-text space-x-4">
-              {isAuth ? (
+              {userInfo ? (
                 <ProfileImage />
               ) : (
                 <LinkButtonItem to="/login">Login</LinkButtonItem>
