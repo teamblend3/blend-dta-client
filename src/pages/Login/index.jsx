@@ -11,10 +11,11 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     const result = await signInWithPopup(firebaseAuth, googleProvider);
+    console.log(result);
 
     const {
       user: { email, displayName, photoURL, uid },
-      _tokenResponse: { oauthAccessToken },
+      _tokenResponse: { oauthAccessToken, refreshToken },
     } = result;
 
     const userInfoObject = {
@@ -23,6 +24,7 @@ function Login() {
       photoURL,
       uid,
       oauthAccessToken,
+      oauthRefreshToken: refreshToken,
     };
 
     const response = await axios.post("/api/users/login", userInfoObject);
