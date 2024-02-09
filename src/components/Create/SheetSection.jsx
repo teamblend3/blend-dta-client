@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import FloatingInput from "../Form/FloatingInput";
-import useInput from "../../hooks/useInput";
 import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
+import useProjectInput from "../../hooks/useProjectInput";
 
 function SheetSection() {
-  const sheetUrl = useInput("");
+  const sheetUrl = useProjectInput({ name: "sheetUrl" });
   const generateUrl = useMutation({
     mutationFn: () =>
       axios.get("/api/projects/generation/sheet", { withCredentials: true }),
