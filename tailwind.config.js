@@ -6,6 +6,8 @@ export default {
     extend: {},
     colors: {
       transparent: "transparent",
+      black: "black",
+      white: "white",
       warn: {
         50: "var(--warn-50)",
         100: "var(--warn-100)",
