@@ -1,29 +1,32 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
-import useInput from "../../hooks/useInput";
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
+import useProjectInput from "../../hooks/useProjectInput";
 
 function MongoSection() {
-  const [tableName, setTableName] = useState([]);
-  const databaseUrl = useInput("");
-  const databaseId = useInput("");
-  const databasePassword = useInput("");
+  const [dbTableList, setDbTableList] = useState([]);
+  const dbUrl = useProjectInput({ name: "dbUrl" });
+  const dbId = useProjectInput({ name: "dbId" });
+  const dbPassword = useProjectInput({ name: "dbPassword" });
+  const dbTableName = useProjectInput({ name: "dbTableName" });
+
   const validateDb = useMutation({
     mutationFn: data => axios.post("/api/projects/validation/db", data),
     onSuccess: res => {
-      setTableName(res.data.databaseList);
+      setDbTableList(res.data.databaseList);
+      dbTableName.setValue(res.data.databaseList[0].name);
       databaseUrl.setError("");
     },
     onError: err => {
       databaseUrl.setError(
         `Fail connect Database! ${err.response.data.message}`,
       );
-      setTableName([]);
+      setDbTableList([]);
     },
     onSettled: () => {},
   });
@@ -31,9 +34,9 @@ function MongoSection() {
   const handleDatabaseSubmit = async e => {
     e.preventDefault();
     const payload = {
-      databaseUrl: databaseUrl.value,
-      databaseId: databaseId.value,
-      databasePassword: databasePassword.value,
+      dbUrl: dbUrl.value,
+      dbId: dbId.value,
+      dbPassword: dbPassword.value,
     };
     validateDb.mutate(payload);
   };
@@ -52,33 +55,31 @@ function MongoSection() {
             type="text"
             name="database_url"
             label="Database Url"
-            {...databaseUrl}
+            {...dbUrl}
           />
           <FloatingInput
             type="text"
             name="database_id"
             label="Database Id"
-            {...databaseId}
+            {...dbId}
           />
           <FloatingInput
             type="password"
             name="database_password"
             label="password"
-            {...databasePassword}
+            {...dbPassword}
           />
         </div>
         <FormSelect
           id="tableName"
-          options={tableName}
-          disabled={!tableName.length}
+          options={dbTableList}
+          disabled={!dbTableList.length}
+          {...dbTableName}
         />
         <FormButton type="submit">Submit</FormButton>
       </form>
-      {databaseUrl.error && (
-        <FormError
-          errorMessage={databaseUrl.error}
-          setShow={databaseUrl.setError}
-        />
+      {dbUrl.error && (
+        <FormError errorMessage={dbUrl.error} setShow={dbUrl.setError} />
       )}
     </section>
   );

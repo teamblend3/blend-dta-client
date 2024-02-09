@@ -5,7 +5,7 @@ import DarkLogo from "../../assets/images/teamblend_logo.png";
 import LightLogo from "../../assets/images/teamblend_light_logo.png";
 import useThemeStore from "../../stores/useThemeStore";
 import useAuthStore from "../../stores/useAuthStore";
-import useAuthStatus from "../../hooks/useAuthStore";
+import useAuthStatus from "../../hooks/useAuthStatus";
 
 function Header() {
   const { isDark } = useThemeStore();
