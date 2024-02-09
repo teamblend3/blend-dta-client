@@ -10,7 +10,18 @@ function SheetSection() {
   const generateUrl = useMutation({
     mutationFn: () =>
       axios.get("/api/projects/generation/sheet", { withCredentials: true }),
-    onSuccess: res => {},
+    onSuccess: res => {
+      const {
+        data: { success },
+      } = res;
+
+      if (success) {
+        sheetUrl.setValue(res.data.sheetUrl);
+      } else {
+        sheetUrl.setValue("");
+        sheetUrl.setError("error");
+      }
+    },
     onError: err => {
       sheetUrl.setError(`Fail connect Database! ${err.response.data.message}`);
     },
