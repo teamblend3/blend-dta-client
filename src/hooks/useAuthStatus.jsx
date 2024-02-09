@@ -4,7 +4,6 @@ import useAuthStore from "../stores/useAuthStore";
 
 const useAuthStatus = () => {
   const { setUser } = useAuthStore();
-
   const { isLoading } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
