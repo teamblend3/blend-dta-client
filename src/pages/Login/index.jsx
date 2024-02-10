@@ -43,7 +43,7 @@ function Login() {
     <div className="flex h-full justify-center items-center">
       <button
         type="button"
-        className="text-text-950 font-bold bg-primary-500 hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 font-medium rounded-sm text-base px-5 py-2.5 flex items-center gap-1"
+        className="flex gap-2 items-center text-text-950 bg-primary-400 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary font-bold rounded-md text-xl w-full sm:w-auto px-6 py-2.5 text-center hover:-translate-y-0.5 hover:shadow-xl transform transition-transform ease-in-out duration-150"
         onClick={mutate}
       >
         <IoLogoGoogle />
