@@ -56,12 +56,7 @@ function MongoSection() {
           Submit
         </FormButton>
       </form>
-      {(dbUrl.error || err) && (
-        <FormError
-          errorMessage={dbUrl.error || err}
-          setShow={dbUrl.setError || setErr}
-        />
-      )}
+      {(dbUrl.error || err) && <FormError errorMessage={dbUrl.error || err} />}
     </section>
   );
 }

@@ -46,6 +46,7 @@ const useGenerateUrl = () => {
       return null;
     },
   });
+
   return { generateUrl: mutate };
 };
 

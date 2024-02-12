@@ -1,10 +1,6 @@
 import PropTypes from "prop-types";
 
-function FormError({ errorMessage, setShow }) {
-  const handleShowError = () => {
-    setShow("");
-  };
-
+function FormError({ errorMessage }) {
   return (
     <div
       id="alert-border-2"
@@ -26,7 +22,6 @@ function FormError({ errorMessage, setShow }) {
 }
 
 FormError.propTypes = {
-  setShow: PropTypes.func.isRequired,
   errorMessage: PropTypes.string.isRequired,
 };
 

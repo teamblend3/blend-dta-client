@@ -1,9 +1,9 @@
 import useRefetchAuthStatus from "../../hooks/useRefetchAuthStatus";
 
-function UserProfile() {
+function Projects() {
   useRefetchAuthStatus();
 
-  return <div>UserProfile</div>;
+  return <div>Projects</div>;
 }
 
-export default UserProfile;
+export default Projects;

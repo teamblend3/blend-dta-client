@@ -18,7 +18,7 @@ function Step({ children, stepInfo }) {
 }
 
 Step.propTypes = {
-  stepInfo: PropTypes.objectOf({
+  stepInfo: PropTypes.shape({
     title: PropTypes.string.isRequired,
     done: PropTypes.bool.isRequired,
   }).isRequired,
