@@ -1,45 +1,17 @@
-import axios from "axios";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
 import useProjectInput from "../../hooks/useProjectInput";
+import useValidateDb from "../../hooks/useValidateDb";
 
 function MongoSection() {
-  const [dbTableList, setDbTableList] = useState([]);
   const dbUrl = useProjectInput({ name: "dbUrl" });
   const dbId = useProjectInput({ name: "dbId" });
   const dbPassword = useProjectInput({ name: "dbPassword" });
   const dbTableName = useProjectInput({ name: "dbTableName" });
 
-  const validateDb = useMutation({
-    mutationFn: data => axios.post("/api/projects/validation/db", data),
-    onSuccess: res => {
-      setDbTableList(res.data.databaseList);
-      dbTableName.setValue(res.data.databaseList[0].name);
-      databaseUrl.setError("");
-    },
-    onError: err => {
-      databaseUrl.setError(
-        `Fail connect Database! ${err.response.data.message}`,
-      );
-      setDbTableList([]);
-    },
-    onSettled: () => {},
-  });
-
-  const handleDatabaseSubmit = async e => {
-    e.preventDefault();
-    const payload = {
-      dbUrl: dbUrl.value,
-      dbId: dbId.value,
-      dbPassword: dbPassword.value,
-    };
-    validateDb.mutate(payload);
-  };
+  const { dbTableList, err, setErr, handleDatabaseSubmit } = useValidateDb();
 
   return (
     <section className="p-2">
@@ -73,13 +45,22 @@ function MongoSection() {
         <FormSelect
           id="tableName"
           options={dbTableList}
-          disabled={!dbTableList.length}
           {...dbTableName}
+          disabled={!dbTableList.length || Boolean(dbUrl.error)}
         />
-        <FormButton type="submit">Submit</FormButton>
+        <FormButton
+          type="submit"
+          handleClick={handleDatabaseSubmit}
+          disabled={Boolean(dbUrl.error)}
+        >
+          Submit
+        </FormButton>
       </form>
-      {dbUrl.error && (
-        <FormError errorMessage={dbUrl.error} setShow={dbUrl.setError} />
+      {(dbUrl.error || err) && (
+        <FormError
+          errorMessage={dbUrl.error || err}
+          setShow={dbUrl.setError || setErr}
+        />
       )}
     </section>
   );
