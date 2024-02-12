@@ -2,17 +2,40 @@ import { create } from "zustand";
 
 const useProjectStore = create(set => ({
   projectInfo: {
-    dbUrl: "",
-    dbId: "",
-    dbPassword: "",
-    dbTableName: "",
-    sheetUrl: "",
+    dbUrl: { value: "", error: "", disabled: false },
+    dbId: { value: "", error: "", disabled: false },
+    dbPassword: { value: "", error: "", disabled: false },
+    dbTableName: { value: "", error: "", disabled: false },
+    sheetUrl: { value: "", error: "", disabled: false },
   },
-  setProjectInfo: info =>
+  setInfoValue: info =>
     set(state => ({
       projectInfo: {
         ...state.projectInfo,
-        [info.name]: info.value,
+        [info.name]: {
+          ...state.projectInfo[info.name],
+          value: info.value,
+        },
+      },
+    })),
+  setInfoError: info =>
+    set(state => ({
+      projectInfo: {
+        ...state.projectInfo,
+        [info.name]: {
+          ...state.projectInfo[info.name],
+          error: info.error,
+        },
+      },
+    })),
+  setInfoDisabled: info =>
+    set(state => ({
+      projectInfo: {
+        ...state.projectInfo,
+        [info.name]: {
+          ...state.projectInfo[info.name],
+          disabled: info.disabled,
+        },
       },
     })),
 }));

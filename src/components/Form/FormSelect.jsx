@@ -4,7 +4,7 @@ function FormSelect({ id, options, disabled, value, handleChange }) {
   return (
     <select
       id={id}
-      className="bg-accent-500 border border-accent-300 text-accent-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      className="bg-accent-500 border border-accent-300 text-accent-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:cursor-not-allowed disabled:bg-accent-50"
       disabled={disabled}
       value={value}
       onChange={handleChange}

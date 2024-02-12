@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore";
 
 const useAuthStatus = () => {
   const { setUser } = useAuthStore();
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
       try {
@@ -35,7 +34,7 @@ const useAuthStatus = () => {
     refetchInterval: import.meta.env.VITE_AUTH_REFRESH_INTERVAL,
   });
 
-  return { isLoading };
+  return { isLoading, refetch };
 };
 
 export default useAuthStatus;
