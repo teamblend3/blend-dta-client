@@ -24,9 +24,7 @@ function SheetSection() {
           Generate
         </FormButton>
       </div>
-      {sheetUrl.error && (
-        <FormError errorMessage={sheetUrl.error} setShow={sheetUrl.setError} />
-      )}
+      {sheetUrl.error && <FormError errorMessage={sheetUrl.error} />}
     </section>
   );
 }
