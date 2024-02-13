@@ -6,14 +6,13 @@ import useAuthStore from "../../stores/useAuthStore";
 function ProfileImage() {
   const { userInfo } = useAuthStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
       <button
         type="button"
-        className={`flex text-sm bg-accent-800 dark:bg-primary-800 rounded-full md:me-0 ring-4 ${isDropdownOpen ? "dark:ring-accent-400 ring-primary-600" : "dark:ring-accent-600 ring-primary-800"}`}
+        className={`flex text-sm dark:bg-primary-800 rounded-full md:me-0 ring-4 ${isDropdownOpen ? "dark:ring-accent-400 ring-primary-600" : "dark:ring-accent-600 ring-primary-800"}`}
         id="user-menu-button"
         aria-expanded="false"
         data-dropdown-toggle="user-dropdown"
