@@ -5,7 +5,6 @@ const useRefetchAuthStatus = () => {
   const { refetch } = useAuthStatus();
 
   useEffect(() => {
-    console.log(`hi`);
     refetch();
   }, []);
 };
