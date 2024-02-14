@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Joi from "joi";
 
 import FloatingInput from "../Form/FloatingInput";
 import ProfileImage from "../ProfileImage";
@@ -6,16 +7,28 @@ import SmallSpinner from "../shared/SmallSpinner";
 
 import useAuthStore from "../../stores/useAuthStore";
 import useUpdateProfile from "../../hooks/useUpdateProfile";
+import FormError from "../Form/FormError";
+import useValidation from "../../hooks/useValidation";
 
 function UserInfo() {
   const { userInfo } = useAuthStore();
   const [email, setEmail] = useState(userInfo.email);
   const [userName, setUserName] = useState(userInfo.userName);
   const [selectedFile, setSelectedFile] = useState(null);
-  const { loading, updateProfileMutate } = useUpdateProfile();
+  const { loading, mutate } = useUpdateProfile();
+
+  const emailSchema = Joi.string().email({ tlds: { allow: false } });
+  const userNameSchema = Joi.string().min(3);
+
+  const emailError = useValidation(email, emailSchema);
+  const userNameError = useValidation(userName, userNameSchema);
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    if (emailError || userNameError) {
+      return;
+    }
 
     const formData = new FormData();
 
@@ -27,7 +40,11 @@ function UserInfo() {
       formData.append("fileName", selectedFile.name);
     }
 
-    updateProfileMutate(formData);
+    mutate(formData);
+  };
+
+  const handleChange = setter => e => {
+    setter(e.target.value);
   };
 
   return (
@@ -43,15 +60,17 @@ function UserInfo() {
             name="email"
             label="User email"
             value={email}
-            handleChange={e => setEmail(e.target.value)}
+            handleChange={handleChange(setEmail)}
           />
+          {emailError && <FormError errorMessage={emailError} />}
           <FloatingInput
             type="text"
             name="username"
             label="User name"
             value={userName}
-            handleChange={e => setUserName(e.target.value)}
+            handleChange={handleChange(setUserName)}
           />
+          {userNameError && <FormError errorMessage={userNameError} />}
         </div>
         <button
           type="submit"
