@@ -1,81 +1,48 @@
-function ProjectTable() {
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
+function ProjectTable({ currentPage, projects }) {
   return (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table className="w-full text-base text-left rtl:text-right text-primary-500 dark:text-primary-400 my-4">
+      <thead className="text-xs text-center text-primary-700 uppercase bg-primary-50 ">
         <tr>
-          <th scope="col" className="px-6 py-3">
-            No.
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Project name
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Collection
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Created At
-          </th>
+          <th className="px-6 py-2">No.</th>
+          <th className="px-6 py-2">Project name</th>
+          <th className="px-6 py-2">Collection</th>
+          <th className="px-6 py-2">Created At</th>
         </tr>
       </thead>
       <tbody>
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th
-            scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        {projects.map(({ _id, title, collectionCount, createdAt }, i) => (
+          <tr
+            className="bg-transparent border-b-2 border-primary-50 text-center"
+            key={_id}
           >
-            Apple MacBook Pro 17
-          </th>
-          <td className="px-6 py-4">Silver</td>
-          <td className="px-6 py-4">Laptop</td>
-          <td className="px-6 py-4">$2999</td>
-        </tr>
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th
-            scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Microsoft Surface Pro
-          </th>
-          <td className="px-6 py-4">White</td>
-          <td className="px-6 py-4">Laptop PC</td>
-          <td className="px-6 py-4">$1999</td>
-        </tr>
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th
-            scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Microsoft Surface Pro
-          </th>
-          <td className="px-6 py-4">White</td>
-          <td className="px-6 py-4">Laptop PC</td>
-          <td className="px-6 py-4">$1999</td>
-        </tr>
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th
-            scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Microsoft Surface Pro
-          </th>
-          <td className="px-6 py-4">White</td>
-          <td className="px-6 py-4">Laptop PC</td>
-          <td className="px-6 py-4">$1999</td>
-        </tr>
-        <tr className="bg-white dark:bg-gray-800">
-          <th
-            scope="row"
-            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Magic Mouse 2
-          </th>
-          <td className="px-6 py-4">Black</td>
-          <td className="px-6 py-4">Accessories</td>
-          <td className="px-6 py-4">$99</td>
-        </tr>
+            <th className="px-6 py-2 font-medium text-primary-900 whitespace-nowrap ">
+              {(currentPage - 1) * 5 + i + 1}
+            </th>
+            <td className="px-6 py-2 hover:text-secondary-300">
+              <Link to={`/projects/${_id}`}>{title}</Link>
+            </td>
+            <td className="px-6 py-2">{collectionCount}</td>
+            <td className="px-6 py-2">{createdAt?.slice(0, 10)}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
 }
+
+ProjectTable.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      collectionCount: PropTypes.number.isRequired,
+      createdAt: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
 
 export default ProjectTable;
