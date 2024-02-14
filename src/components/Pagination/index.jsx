@@ -1,52 +1,53 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import NextArrow from "./NextArrow";
 import PreviousArrow from "./PreviousArrow";
 import cls from "../../utils/styleJoinUtil";
 
-function Pagination() {
-  const [page, setPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handleClickPrevious = () => {
-    if (page > 5) {
-      setPage(page - 5);
-      setCurrentPage(page - 5);
-    } else {
-      setCurrentPage(1);
-    }
-  };
-
-  const handleClickNext = () => {
-    setPage(page + 5);
-    setCurrentPage(page + 5);
-  };
+function Pagination({ totalLength, currentPage, setCurrentPage }) {
+  const totalPages = Math.ceil(totalLength / 5);
+  const currentPageGroup = Math.ceil(currentPage / 5);
+  const startPage = (currentPageGroup - 1) * 5 + 1;
+  const calculatedEndPage = startPage + 5 - 1;
+  const endPage =
+    calculatedEndPage > totalPages ? totalPages : calculatedEndPage;
+  const previousPageGroupLastPage = startPage - 1 < 1 ? 1 : startPage - 1;
+  const nextPageGroupFirstPage =
+    endPage + 1 > totalPages ? totalPages : endPage + 1;
 
   return (
     <nav aria-label="Page navigation example">
       <ul className="flex items-center -space-x-px h-8 text-sm">
-        <PreviousArrow onClick={handleClickPrevious} />
-        {new Array(5)
-          .fill(0)
-          .map((_, i) => page + i)
-          .map(number => (
-            <li key={number}>
-              <button
-                className={cls(
-                  "w-8 flex items-center justify-center h-8 leading-tight text-primary-500 border border-primary-300 hover:bg-primary-400 hover:text-primary-900 cursor-pointer",
-                  currentPage === number
-                    ? "bg-primary-500 text-white"
-                    : "bg-transparent text-primary-500",
-                )}
-                onClick={() => setCurrentPage(number)}
-              >
-                {number}
-              </button>
-            </li>
-          ))}
-        <NextArrow onClick={handleClickNext} />
+        <PreviousArrow
+          onClick={() => setCurrentPage(previousPageGroupLastPage)}
+        />
+        {Array.from(
+          { length: endPage - startPage + 1 },
+          (_, i) => startPage + i,
+        ).map(number => (
+          <li key={number}>
+            <button
+              className={cls(
+                "w-8 flex items-center justify-center h-8 leading-tight text-primary-500 border border-primary-300 hover:bg-primary-400 hover:text-primary-900 cursor-pointer",
+                currentPage === number
+                  ? "bg-primary-500 text-white"
+                  : "bg-transparent text-primary-500",
+              )}
+              onClick={() => setCurrentPage(number)}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+        <NextArrow onClick={() => setCurrentPage(nextPageGroupFirstPage)} />
       </ul>
     </nav>
   );
 }
+
+Pagination.propTypes = {
+  totalLength: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+};
 
 export default Pagination;
