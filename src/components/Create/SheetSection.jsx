@@ -1,13 +1,23 @@
 import FloatingInput from "../Form/FloatingInput";
 import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
-import useProjectInput from "../../hooks/useProjectInput";
 import useGenerateUrl from "../../hooks/useGenerateUrl";
+import useProjectStore from "../../stores/useProjectStore";
 
 function SheetSection() {
-  const sheetUrl = useProjectInput({ name: "sheetUrl" });
+  const { projectInfo, setProjectInfo, errors, disabledFields } =
+    useProjectStore(state => ({
+      projectInfo: state.projectInfo,
+      errors: state.errors,
+      disabledFields: state.disabledFields,
+      setProjectInfo: state.setProjectInfo,
+      setError: state.setError,
+      setDisabled: state.setDisabled,
+    }));
   const { generateUrl } = useGenerateUrl();
-
+  const handleChange = field => event => {
+    setProjectInfo(field, event.target.value);
+  };
   return (
     <section className="p-2">
       <h2 className="font-semi-bold text-xl text-text-950 mb-2">
@@ -18,13 +28,19 @@ function SheetSection() {
           type="text"
           name="sheetUrl"
           label="Google Spread Sheet Url"
-          {...sheetUrl}
+          value={projectInfo.sheetUrl}
+          handleChange={handleChange("sheetUrl")}
+          disabled={disabledFields.sheetUrl}
         />
         <FormButton type="button" handleClick={generateUrl}>
           Generate
         </FormButton>
       </div>
-      {sheetUrl.error && <FormError errorMessage={sheetUrl.error} />}
+      {Object.values(errors).some(error => error) && (
+        <FormError
+          errorMessage={Object.values(errors).find(error => error) || ""}
+        />
+      )}
     </section>
   );
 }
