@@ -7,15 +7,27 @@ import Projects from "./pages/Projects";
 import CreateProject from "./pages/Create";
 import CollectionPage from "./pages/Collection";
 import useAuthStore from "./stores/useAuthStore";
+import useAuthStatus from "./hooks/useAuthStatus";
+import Spinner from "./components/shared/Spinner";
 
 function PrivateRoute() {
+  const { isLoading } = useAuthStatus();
   const { userInfo } = useAuthStore();
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return userInfo ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 function PublicRoute() {
+  const { isLoading } = useAuthStatus();
   const { userInfo } = useAuthStore();
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return userInfo ? <Navigate to="/" replace /> : <Outlet />;
 }

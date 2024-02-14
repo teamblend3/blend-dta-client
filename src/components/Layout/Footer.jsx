@@ -9,20 +9,20 @@ function Footer() {
   const { isDark, toggleTheme } = useThemeStore();
 
   return (
-    <footer className="w-full bg-background-50 fixed h-24 px-4">
+    <footer className="w-full bg-background-50 fixed h-20 px-4">
       <div className="w-full max-w-screen-xl mx-auto">
-        <div className="sm:flex sm:items-center sm:justify-between">
+        <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+            className="flex items-center mb-0 space-x-3 rtl:space-x-reverse"
           >
             <img
               src={isDark ? DarkLogo : LightLogo}
-              className="h-16"
+              className="h-12"
               alt="Blend Logo"
             />
           </Link>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 text-text-950">
+          <ul className="flex flex-wrap items-center mb-0 text-sm font-medium text-gray-500 text-text-950">
             <li>
               <Link
                 to="/"
@@ -56,7 +56,7 @@ function Footer() {
           </ul>
         </div>
         <hr className="sm:mx-auto border-text-950 lg:my-1" />
-        <span className="block text-sm text-text-950 sm:text-center text-text">
+        <span className="block text-sm text-text-950 text-center text-text">
           © 2024{" "}
           <Link to="/" className="hover:underline uppercase">
             blend™
