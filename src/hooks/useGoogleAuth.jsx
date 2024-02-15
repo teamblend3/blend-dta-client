@@ -2,8 +2,9 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-import { firebaseAuth } from "../utils/firebaseAuth";
 import useAuthStore from "../stores/useAuthStore";
+import extractUserInfo from "../utils/hooksUtils";
+import { firebaseAuth } from "../utils/firebaseAuth";
 
 const useGoogleAuth = () => {
   const { setUser } = useAuthStore();
@@ -12,30 +13,26 @@ const useGoogleAuth = () => {
   googleProvider.addScope(import.meta.env.VITE_GOOGLE_SHEET_SCOPE);
 
   const handleGoogleLogin = async () => {
-    const result = await signInWithPopup(firebaseAuth, googleProvider);
-    const {
-      user: { email, displayName, photoURL, uid },
-      _tokenResponse: { oauthAccessToken, refreshToken: oauthRefreshToken },
-    } = result;
-    const userInfoObject = {
-      email,
-      displayName,
-      photoURL,
-      uid,
-      oauthAccessToken,
-      oauthRefreshToken,
-    };
-    const response = await axios.post("/api/users/login", userInfoObject);
+    try {
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      const userInfo = extractUserInfo(result);
 
-    return response;
+      const { data } = await axios.post("/api/users/login", userInfo);
+
+      return data;
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      throw new Error(error.message);
+    }
   };
 
   const { mutate } = useMutation({
     mutationFn: handleGoogleLogin,
-    onSuccess: result => {
-      const { data } = result;
-
+    onSuccess: data => {
       setUser(data.userInfo);
+    },
+    onError: error => {
+      console.error("Google login error:", error);
     },
   });
 

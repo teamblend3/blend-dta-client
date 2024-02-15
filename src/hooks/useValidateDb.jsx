@@ -2,66 +2,66 @@ import { useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
 import useAuthStore from "../stores/useAuthStore";
 import useProjectStore from "../stores/useProjectStore";
 
 const useValidateDb = () => {
-  const DB_URL = "dbUrl";
-  const DB_ID = "dbId";
-  const DB_PASSWORD = "dbPassword";
-  const DB_TABLE_NAME = "dbTableName";
-
   const [dbTableList, setDbTableList] = useState([]);
   const [err, setErr] = useState("");
-  const { projectInfo, setInfoValue, setInfoDisabled } = useProjectStore();
-  const { setUser } = useAuthStore();
   const navigate = useNavigate();
 
+  const { projectInfo, setProjectInfo, setDisabled } = useProjectStore();
+  const { setUser } = useAuthStore();
+
+  const validateDatabase = async data => {
+    try {
+      const response = await axios.post("/api/projects/validation/db", data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          setUser(null);
+          navigate("/login");
+        }
+        throw new Error(
+          error.response.data.message || error.response.statusText,
+        );
+      } else {
+        throw error;
+      }
+    }
+  };
+
   const { mutate } = useMutation({
-    mutationFn: data => axios.post("/api/projects/validation/db", data),
-    onSuccess: res => {
-      setDbTableList(res.data.databaseList);
-      setInfoValue({
-        name: DB_TABLE_NAME,
-        value: res.data.databaseList[0].name,
-      });
-      setInfoDisabled({ name: DB_URL, disabled: true });
-      setInfoDisabled({ name: DB_ID, disabled: true });
-      setInfoDisabled({ name: DB_PASSWORD, disabled: true });
+    mutationFn: validateDatabase,
+    onSuccess: data => {
+      const { databaseList } = data;
+      setDbTableList(databaseList);
+      setProjectInfo("dbTableName", databaseList[0].name);
+      ["dbUrl", "dbId", "dbPassword"].forEach(field =>
+        setDisabled(field, true),
+      );
       setErr("");
     },
     onError: error => {
-      if (error.response && error.response.status === 401) {
-        setUser(null);
-        setErr(`Error! ${error.response.statusText}`);
-        return navigate("/login");
-      }
-      setErr(`Fail connect Database! ${error.response.data.message}`);
+      setErr(error.message);
       setDbTableList([]);
-      return null;
     },
   });
 
-  const handleDatabaseSubmit = async e => {
+  const handleDatabaseSubmit = e => {
     e.preventDefault();
-    const {
-      dbUrl: { value: dbUrl, error },
-      dbId: { value: dbId },
-      dbPassword: { value: dbPassword },
-    } = projectInfo;
+    const { dbUrl, dbId, dbPassword } = projectInfo;
 
-    if (error) {
+    if (dbUrl.error) {
       return;
     }
 
-    const payload = {
+    mutate({
       dbUrl,
       dbId,
       dbPassword,
-    };
-
-    mutate(payload);
+    });
   };
 
   return { dbTableList, err, setErr, handleDatabaseSubmit };

@@ -1,49 +1,49 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+
 import useAuthStore from "../stores/useAuthStore";
 import useProjectStore from "../stores/useProjectStore";
 
 const useGenerateUrl = () => {
   const SHEET_URL = "sheetUrl";
+  const navigate = useNavigate();
   const { setUser } = useAuthStore();
   const { setInfoValue, setInfoError, setInfoDisabled } = useProjectStore();
-  const navigate = useNavigate();
+
+  const generateSheetUrl = async () => {
+    const res = await axios.get("/api/projects/generation/sheet", {
+      withCredentials: true,
+    });
+    return res;
+  };
 
   const { mutate } = useMutation({
-    mutationFn: () =>
-      axios.get("/api/projects/generation/sheet", { withCredentials: true }),
+    mutationFn: generateSheetUrl,
     onSuccess: res => {
-      const {
-        data: { success },
-      } = res;
-
-      if (success) {
-        setInfoValue({ name: SHEET_URL, value: res.data.sheetUrl });
+      const { sheetUrl } = res.data;
+      if (sheetUrl) {
+        setInfoValue({ name: SHEET_URL, value: sheetUrl });
         setInfoError({ name: SHEET_URL, error: "" });
         setInfoDisabled({ name: SHEET_URL, disabled: true });
       } else {
-        setInfoValue({ name: SHEET_URL, value: "" });
         setInfoError({
           name: SHEET_URL,
-          error: "Error! Interval Server Error",
+          error: "Error! Failed to generate URL.",
         });
       }
     },
     onError: error => {
-      if (error.response && error.response.status === 401) {
-        setInfoError({
-          name: SHEET_URL,
-          error: `Error! ${error.response.statusText}`,
-        });
-        setUser(null);
-        return navigate("/login");
+      let errorMessage = "Error! Something went wrong.";
+      if (error.response) {
+        if (error.response.status === 401) {
+          setUser(null);
+          navigate("/login");
+          return;
+        }
+        errorMessage = `Error! ${error.response.data.message || error.response.statusText}`;
       }
-      setInfoError({
-        name: SHEET_URL,
-        error: `Fail generate sheet! ${error.response.data.message}`,
-      });
-      return null;
+      setInfoError({ name: SHEET_URL, error: errorMessage });
     },
   });
 

@@ -2,16 +2,26 @@ import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
-import useProjectInput from "../../hooks/useProjectInput";
 import useValidateDb from "../../hooks/useValidateDb";
+import useProjectStore from "../../stores/useProjectStore";
 
 function MongoSection() {
-  const dbUrl = useProjectInput({ name: "dbUrl" });
-  const dbId = useProjectInput({ name: "dbId" });
-  const dbPassword = useProjectInput({ name: "dbPassword" });
-  const dbTableName = useProjectInput({ name: "dbTableName" });
+  const { projectInfo, errors, setProjectInfo, disabledFields } =
+    useProjectStore(state => ({
+      projectInfo: state.projectInfo,
+      errors: state.errors,
+      disabledFields: state.disabledFields,
+      setProjectInfo: state.setProjectInfo,
+      setError: state.setError,
+      setDisabled: state.setDisabled,
+    }));
+  const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
-  const { dbTableList, err, setErr, handleDatabaseSubmit } = useValidateDb();
+  const handleChange = field => event => {
+    setProjectInfo(field, event.target.value);
+
+    // error validate
+  };
 
   return (
     <section className="p-2">
@@ -25,38 +35,49 @@ function MongoSection() {
         <div className="sm:flex w-full space-x-4 sm:[&>*:first-child]:w-8/12">
           <FloatingInput
             type="text"
-            name="database_url"
+            name="dbUrl"
             label="Database Url"
-            {...dbUrl}
+            value={projectInfo.dbUrl}
+            handleChange={handleChange("dbUrl")}
+            disabled={disabledFields.dbUrl}
           />
           <FloatingInput
             type="text"
-            name="database_id"
+            name="dbId"
             label="Database Id"
-            {...dbId}
+            value={projectInfo.dbId}
+            handleChange={handleChange("dbId")}
+            disabled={disabledFields.dbId}
           />
           <FloatingInput
             type="password"
-            name="database_password"
+            name="dbPassword"
             label="password"
-            {...dbPassword}
+            value={projectInfo.dbPassword}
+            handleChange={handleChange("dbPassword")}
+            disabled={disabledFields.dbPassword}
           />
         </div>
         <FormSelect
           id="tableName"
           options={dbTableList}
-          {...dbTableName}
-          disabled={!dbTableList.length || Boolean(dbUrl.error)}
+          value={projectInfo.dbTableName}
+          handleChange={handleChange("dbTableName")}
+          disabled={!dbTableList.length || disabledFields.dbTableName}
         />
         <FormButton
           type="submit"
           handleClick={handleDatabaseSubmit}
-          disabled={Boolean(dbUrl.error)}
+          disabled={Object.values(errors).some(error => error !== "")}
         >
           Submit
         </FormButton>
       </form>
-      {(dbUrl.error || err) && <FormError errorMessage={dbUrl.error || err} />}
+      {Object.values(errors).some(error => error) && (
+        <FormError
+          errorMessage={Object.values(errors).find(error => error) || ""}
+        />
+      )}
     </section>
   );
 }
