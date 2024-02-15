@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import NextArrow from "./NextArrow";
-import PreviousArrow from "./PreviousArrow";
-import cls from "../../utils/styleJoinUtil";
+import cls from "../../utils/styleUtil";
+import { NextArrow, PreviousArrow } from "./ArrowButton";
 
 function Pagination({ totalLength, currentPage, setCurrentPage }) {
   const totalPages = Math.ceil(totalLength / 5);
