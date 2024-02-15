@@ -30,8 +30,7 @@ function Modal() {
     e.preventDefault();
     setShow(true);
     // validation
-    console.log(projectInfo);
-    // synchronizeDbToSheet.mutate(projectInfo);
+    synchronizeDbToSheet.mutate(projectInfo);
   };
 
   const handleDisAppearModal = () => {
