@@ -1,10 +1,8 @@
 import { IoLogoGoogle } from "react-icons/io";
 
 import useGoogleAuth from "../../hooks/useGoogleAuth";
-import useRefetchAuthStatus from "../../hooks/useRefetchAuthStatus";
 
 function Login() {
-  useRefetchAuthStatus();
   const mutate = useGoogleAuth();
 
   return (

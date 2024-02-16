@@ -9,7 +9,7 @@ const useGenerateUrl = () => {
   const SHEET_URL = "sheetUrl";
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
-  const { setInfoValue, setInfoError, setInfoDisabled } = useProjectStore();
+  const { setProjectInfo, setError, setDisabled } = useProjectStore();
 
   const generateSheetUrl = async () => {
     const res = await axios.get("/api/projects/generation/sheet", {
@@ -22,15 +22,13 @@ const useGenerateUrl = () => {
     mutationFn: generateSheetUrl,
     onSuccess: res => {
       const { sheetUrl } = res.data;
+
       if (sheetUrl) {
-        setInfoValue({ name: SHEET_URL, value: sheetUrl });
-        setInfoError({ name: SHEET_URL, error: "" });
-        setInfoDisabled({ name: SHEET_URL, disabled: true });
+        setProjectInfo(SHEET_URL, sheetUrl);
+        setError(SHEET_URL, "");
+        setDisabled(SHEET_URL, true);
       } else {
-        setInfoError({
-          name: SHEET_URL,
-          error: "Error! Failed to generate URL.",
-        });
+        setError(SHEET_URL, "Error! Failed to generate URL.");
       }
     },
     onError: error => {
@@ -43,7 +41,7 @@ const useGenerateUrl = () => {
         }
         errorMessage = `Error! ${error.response.data.message || error.response.statusText}`;
       }
-      setInfoError({ name: SHEET_URL, error: errorMessage });
+      setError(SHEET_URL, errorMessage);
     },
   });
 

@@ -33,7 +33,7 @@ const useAuthStatus = () => {
     queryFn: () => fetchUserAuthStatus(setUser),
     retry: false,
     staleTime: Infinity,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     refetchInterval: import.meta.env.VITE_AUTH_REFRESH_INTERVAL,
   });
 
