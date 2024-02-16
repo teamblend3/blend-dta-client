@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 function ArrowIcon({ direction }) {
   return (
     <svg
-      className={`w-2.5 h-2.5 ${direction === "left" ? "" : "rotate-180"}`}
+      className="w-2.5 h-2.5"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
