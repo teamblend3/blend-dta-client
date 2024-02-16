@@ -1,4 +1,5 @@
-import useRefetchAuthStatus from "../../hooks/useRefetchAuthStatus";
+import { useState } from "react";
+import { GrLinkNext } from "react-icons/gr";
 import Pagination from "./Pagination";
 import ProjectTable from "./ProjectTable";
 import Spinner from "../../components/shared/Spinner";
@@ -7,21 +8,24 @@ import LogViewer from "./LogViewer";
 import LinkButton from "../../components/Button/LinkButton";
 
 function Projects() {
-  useRefetchAuthStatus();
-
-  const { currentPage, setCurrentPage, isLoading, isError, error, data } =
-    useUserProjects();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { isLoading, isError, error, data } = useUserProjects();
 
   if (isLoading) return <Spinner />;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="w-7/12 flex-col items-center space-y-2 xl:w-8/12 2xl:w-6/12 mx-auto py-5 max-w-screen-xl">
+    <div className="w-8/12 flex-col items-center mx-auto max-w-screen-xl py-5">
       <div className="flex justify-end w-full">
-        <LinkButton to="/projects/new">Create New Project</LinkButton>
+        <LinkButton to="/projects/new">
+          Create New Project <GrLinkNext size={20} />
+        </LinkButton>
       </div>
-      <h2 className="font-bold text-lg text-text-950 uppercase">My Projects</h2>
-      <div className="flex flex-col relative overflow-x-auto justify-center items-center">
+
+      <section className="flex flex-col relative overflow-x-auto justify-center items-center mt-4">
+        <h2 className="font-bold text-lg text-text-950 uppercase self-start">
+          My Projects
+        </h2>
         {data ? (
           <>
             <ProjectTable currentPage={currentPage} projects={data.projects} />
@@ -35,13 +39,13 @@ function Projects() {
         ) : (
           <h1>No projects found</h1>
         )}
-      </div>
-      <div>
-        <h2 className="font-bold text-lg text-text-950 uppercase mt-5">
+      </section>
+      <section className="mt-4">
+        <h2 className="font-bold text-lg text-text-950 uppercase">
           Logs Viewer
         </h2>
         <LogViewer />
-      </div>
+      </section>
     </div>
   );
 }

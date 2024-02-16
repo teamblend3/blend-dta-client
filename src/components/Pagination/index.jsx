@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import cls from "../../utils/styleUtil";
 import { NextArrow, PreviousArrow } from "./ArrowButton";
+import { PROJECTS_PER_PAGE } from "../../utils/constants";
 
 function Pagination({ totalLength, currentPage, setCurrentPage }) {
-  const totalPages = Math.ceil(totalLength / 5);
-  const currentPageGroup = Math.ceil(currentPage / 5);
-  const startPage = (currentPageGroup - 1) * 5 + 1;
-  const calculatedEndPage = startPage + 5 - 1;
+  const totalPages = Math.ceil(totalLength / PROJECTS_PER_PAGE);
+  const currentPageGroup = Math.ceil(currentPage / PROJECTS_PER_PAGE);
+  const startPage = (currentPageGroup - 1) * PROJECTS_PER_PAGE + 1;
+  const calculatedEndPage = startPage + PROJECTS_PER_PAGE - 1;
   const endPage =
     calculatedEndPage > totalPages ? totalPages : calculatedEndPage;
   const previousPageGroupLastPage = startPage - 1 < 1 ? 1 : startPage - 1;
