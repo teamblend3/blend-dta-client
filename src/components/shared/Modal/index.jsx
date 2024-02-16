@@ -8,17 +8,28 @@ import ModalHeader from "./ModalHeader";
 import useProjectStore from "../../../stores/useProjectStore";
 import LoadingStep from "../LoadingStep";
 import ModalButton from "./ModalButton";
+import validateProjectInfo from "../../../utils/validates";
 
 function Modal() {
   const [show, setShow] = useState(false);
 
-  const { projectInfo } = useProjectStore();
+  const { projectInfo, errors, setError } = useProjectStore(state => ({
+    projectInfo: state.projectInfo,
+    errors: state.errors,
+    disabledFields: state.disabledFields,
+    setProjectInfo: state.setProjectInfo,
+    setError: state.setError,
+    setDisabled: state.setDisabled,
+  }));
 
-  const synchronizeDbToSheet = useMutation({
-    mutationFn: data =>
-      axios.post("/api/projects/sync", data, { withCredentials: true }),
-    onSuccess: res => {
-      console.log(res);
+  const { mutate } = useMutation({
+    mutationFn: async data => {
+      await axios.post("/api/projects/sync", data, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: data => {
+      console.log(data);
     },
     onError: err => {
       console.log(err);
@@ -28,9 +39,13 @@ function Modal() {
 
   const handleSynchronize = e => {
     e.preventDefault();
+    const isValid = validateProjectInfo(projectInfo, setError);
+
+    if (!isValid) {
+      return;
+    }
+    mutate(projectInfo);
     setShow(true);
-    // validation
-    synchronizeDbToSheet.mutate(projectInfo);
   };
 
   const handleDisAppearModal = () => {

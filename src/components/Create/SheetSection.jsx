@@ -3,21 +3,17 @@ import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
 import useGenerateUrl from "../../hooks/useGenerateUrl";
 import useProjectStore from "../../stores/useProjectStore";
+import { SHEET_URL } from "../../utils/constants";
 
 function SheetSection() {
-  const { projectInfo, setProjectInfo, errors, disabledFields } =
-    useProjectStore(state => ({
-      projectInfo: state.projectInfo,
-      errors: state.errors,
-      disabledFields: state.disabledFields,
-      setProjectInfo: state.setProjectInfo,
-      setError: state.setError,
-      setDisabled: state.setDisabled,
-    }));
+  const { projectInfo, setProjectInfo, errors, setError, disabledFields } =
+    useProjectStore();
   const { generateUrl } = useGenerateUrl();
-  const handleChange = field => event => {
-    setProjectInfo(field, event.target.value);
+  const handleChange = field => e => {
+    setError(SHEET_URL, "");
+    setProjectInfo(field, e.target.value);
   };
+
   return (
     <section className="p-2">
       <h2 className="font-semi-bold text-xl text-text-950 mb-2">
@@ -36,11 +32,7 @@ function SheetSection() {
           Generate
         </FormButton>
       </div>
-      {Object.values(errors).some(error => error) && (
-        <FormError
-          errorMessage={Object.values(errors).find(error => error) || ""}
-        />
-      )}
+      {errors[SHEET_URL] && <FormError errorMessage={errors[SHEET_URL]} />}
     </section>
   );
 }

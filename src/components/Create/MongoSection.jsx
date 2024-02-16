@@ -4,9 +4,10 @@ import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
 import useValidateDb from "../../hooks/useValidateDb";
 import useProjectStore from "../../stores/useProjectStore";
+import { DB_URL } from "../../utils/constants";
 
 function MongoSection() {
-  const { projectInfo, errors, setProjectInfo, disabledFields } =
+  const { projectInfo, errors, setError, setProjectInfo, disabledFields } =
     useProjectStore(state => ({
       projectInfo: state.projectInfo,
       errors: state.errors,
@@ -15,11 +16,12 @@ function MongoSection() {
       setError: state.setError,
       setDisabled: state.setDisabled,
     }));
+
   const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
   const handleChange = field => event => {
     setProjectInfo(field, event.target.value);
-
+    setError(DB_URL, "");
     // error validate
   };
 
@@ -68,16 +70,12 @@ function MongoSection() {
         <FormButton
           type="submit"
           handleClick={handleDatabaseSubmit}
-          disabled={Object.values(errors).some(error => error !== "")}
+          disabled={errors.dbUrl}
         >
           Submit
         </FormButton>
       </form>
-      {Object.values(errors).some(error => error) && (
-        <FormError
-          errorMessage={Object.values(errors).find(error => error) || ""}
-        />
-      )}
+      {errors[DB_URL] && <FormError errorMessage={errors[DB_URL]} />}
     </section>
   );
 }

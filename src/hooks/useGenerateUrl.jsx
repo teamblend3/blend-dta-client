@@ -22,15 +22,13 @@ const useGenerateUrl = () => {
     mutationFn: generateSheetUrl,
     onSuccess: res => {
       const { sheetUrl } = res.data;
+
       if (sheetUrl) {
         setProjectInfo(SHEET_URL, sheetUrl);
         setError(SHEET_URL, "");
         setDisabled(SHEET_URL, true);
       } else {
-        setError({
-          name: SHEET_URL,
-          error: "Error! Failed to generate URL.",
-        });
+        setError(SHEET_URL, "Error! Failed to generate URL.");
       }
     },
     onError: error => {
