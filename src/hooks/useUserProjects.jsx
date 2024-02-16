@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import {
   USER_PROJECT_CACHE_TIME,
@@ -8,11 +7,11 @@ import {
 } from "../utils/constants";
 
 const useUserProjects = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const queryClient = useQueryClient();
 
-  const fetchProjects = async page => {
+  const fetchProjects = async () => {
     try {
-      const { data } = await axios.get(`/api/users/projects?page=${page}`, {
+      const { data } = await axios.get(`/api/users/projects`, {
         withCredentials: true,
       });
       if (!data.success) {
@@ -27,16 +26,14 @@ const useUserProjects = () => {
   };
 
   const { isLoading, isError, error, data } = useQuery({
-    queryKey: ["user-projects", currentPage],
-    queryFn: () => fetchProjects(currentPage),
+    queryKey: ["user-projects"],
+    queryFn: () => fetchProjects(),
     staleTime: USER_PROJECT_STALE_TIME,
     cacheTime: USER_PROJECT_CACHE_TIME,
-    keepPreviousData: true,
+    enabled: !queryClient.getQueryData(["user-projects"]),
   });
 
   return {
-    currentPage,
-    setCurrentPage,
     isLoading,
     isError,
     error,

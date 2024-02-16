@@ -16,21 +16,26 @@ function ProjectTable({ currentPage, projects }) {
         </tr>
       </thead>
       <tbody>
-        {projects.map(({ _id, title, collectionCount, createdAt }, index) => (
-          <tr
-            className="bg-transparent border-b-2 border-primary-50 text-center"
-            key={_id}
-          >
-            <th className="px-6 py-2 font-medium text-primary-900 whitespace-nowrap">
-              {(currentPage - 1) * PROJECTS_PER_PAGE + index + 1}
-            </th>
-            <td className="px-6 py-2 hover:text-secondary-300">
-              <Link to={`/projects/${_id}`}>{title}</Link>
-            </td>
-            <td className="px-6 py-2">{collectionCount}</td>
-            <td className="px-6 py-2">{formatDate(createdAt)}</td>
-          </tr>
-        ))}
+        {projects
+          .slice(
+            (currentPage - 1) * PROJECTS_PER_PAGE,
+            currentPage * PROJECTS_PER_PAGE,
+          )
+          .map(({ _id, title, collectionCount, createdAt }, index) => (
+            <tr
+              className="bg-transparent border-b-2 border-primary-50 text-center"
+              key={_id}
+            >
+              <th className="px-6 py-2 font-medium text-primary-900 whitespace-nowrap">
+                {(currentPage - 1) * PROJECTS_PER_PAGE + index + 1}
+              </th>
+              <td className="px-6 py-2 hover:text-secondary-300">
+                <Link to={`/projects/${_id}`}>{title}</Link>
+              </td>
+              <td className="px-6 py-2">{collectionCount}</td>
+              <td className="px-6 py-2">{formatDate(createdAt)}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );
