@@ -28,7 +28,7 @@ function LogViewer() {
         value={logsText}
         readOnly
         rows={10}
-        className="w-full border-2 border-gray-300 p-2 overflow-y-scroll mt-3 tracking-widest resize-none"
+        className="w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-xs text-gray dark:border-white"
       />
     </div>
   );

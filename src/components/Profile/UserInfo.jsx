@@ -2,12 +2,11 @@ import { useState } from "react";
 import Joi from "joi";
 
 import FloatingInput from "../Form/FloatingInput";
+import FormError from "../Form/FormError";
 import ProfileImage from "../ProfileImage";
 import SmallSpinner from "../shared/SmallSpinner";
-
 import useAuthStore from "../../stores/useAuthStore";
 import useUpdateProfile from "../../hooks/useUpdateProfile";
-import FormError from "../Form/FormError";
 import useValidation from "../../hooks/useValidation";
 
 function UserInfo() {
@@ -74,7 +73,8 @@ function UserInfo() {
         </div>
         <button
           type="submit"
-          className="w-20 h-10 text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800 uppercase cursor-pointer"
+          className="w-20 h-10 text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800 uppercase cursor-pointer disabled:bg-primary-300 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:bg-primary-400 disabled:hover:shadow-none"
+          disabled={emailError || userNameError}
         >
           {loading ? <SmallSpinner /> : "save"}
         </button>

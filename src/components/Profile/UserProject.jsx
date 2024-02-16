@@ -1,12 +1,14 @@
+import { useState } from "react";
+
 import Pagination from "../Pagination";
 import ProjectTable from "../ProjectsTable";
 import Spinner from "../shared/Spinner";
 import useUserProjects from "../../hooks/useUserProjects";
 
 function UserProject() {
-  const { currentPage, setCurrentPage, isLoading, isError, error, data } =
-    useUserProjects();
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const { isLoading, isError, error, data } = useUserProjects();
   if (isLoading) return <Spinner />;
   if (isError) return <div>Error: {error.message}</div>;
 

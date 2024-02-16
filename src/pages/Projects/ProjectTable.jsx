@@ -1,58 +1,75 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import LinkImage from "../../components/Link/LinkImage";
-import TableCell from "../../components/Table/TableCell";
 
+import { FaExternalLinkAlt } from "react-icons/fa";
 import formatDate from "../../utils/dateUtil";
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
 
 function ProjectTable({ currentPage, projects }) {
+  console.log(projects);
   return (
-    <table className="w-full text-base text-left rtl:text-right text-text-950 my-2 border-2">
-      <thead className="text-sm text-center text-text-900 uppercase">
+    <table className="w-full text-base text-left text-text-950 my-2 border-[1px]">
+      <thead className="text-xs text-center text-text-500 uppercase">
         <tr>
-          <th className="px-6 py-2 border-2 border-black">No.</th>
-          <th className="px-6 py-2 border-2 border-black">Project name</th>
-          <th className="px-6 py-2 border-2 border-black">db Url</th>
-          <th className="px-6 py-2 border-2 border-black">sheet Url</th>
-          <th className="px-6 py-2 border-2 border-black">collection Count</th>
-          <th className="px-6 py-2 border-2 border-black">Created At</th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-1/12">
+            No.
+          </th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-2/12">
+            Project name
+          </th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-4/12">
+            db Url
+          </th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-1/12">
+            sheet
+          </th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-2/12">
+            collections
+          </th>
+          <th className="py-2 border-[1px] border-black dark:border-white w-2/12">
+            Created At
+          </th>
         </tr>
       </thead>
       <tbody>
-        {projects.map(
-          (
-            { _id, title, dbUrl, sheetUrl, collectionCount, createdAt },
-            index,
-          ) => (
-            <tr
-              key={_id}
-              className="bg-transparent border-b-2 border-primary-50 text-center text-sm border-2 border-black"
-            >
-              <td className="px-6 py-2 font-medium text-primary-900 whitespace-nowrap border-2 border-black">
-                {(currentPage - 1) * PROJECTS_PER_PAGE + index + 1}
-              </td>
-              <TableCell
-                label={`project_title_${_id}`}
-                link={`/projects/${_id}`}
-                content={title}
-              />
-              <TableCell label={`project_dbUrl_${_id}`} content={dbUrl} />
-              <TableCell
-                label={`project_sheetUrl_${_id}`}
-                content={<LinkImage to={sheetUrl} />}
-              />
-              <TableCell
-                label={`project_collectionCount_${_id}`}
-                content={collectionCount}
-              />
-              <TableCell
-                label={`project_createdAt_${_id}`}
-                content={formatDate(createdAt)}
-              />
-            </tr>
-          ),
-        )}
+        {projects
+          .slice(
+            (currentPage - 1) * PROJECTS_PER_PAGE,
+            currentPage * PROJECTS_PER_PAGE,
+          )
+          .map(
+            (
+              { _id, title, dbUrl, sheetUrl, collectionCount, createdAt },
+              index,
+            ) => (
+              <tr
+                key={_id}
+                className="bg-transparent border-b-[1px] text-center text-sm border-[1px] border-black dark:border-white"
+              >
+                <td className="py-2 font-medium whitespace-nowrap border-[1px] border-black dark:border-white">
+                  {(currentPage - 1) * PROJECTS_PER_PAGE + index + 1}
+                </td>
+                <td className="py-2 border-[1px] border-black dark:border-white">
+                  <Link to={`/projects/${_id}`}>{title}</Link>
+                </td>
+                <td className="py-2 border-[1px] border-black dark:border-white">
+                  {dbUrl}
+                </td>
+                <td className="py-2 border-[1px] border-black dark:border-white">
+                  <Link to={sheetUrl} className="inline-block">
+                    <FaExternalLinkAlt />
+                    <span className="sr-only">Open external link</span>
+                  </Link>
+                </td>
+                <td className="py-2 border-[1px] border-black dark:border-white">
+                  {collectionCount}
+                </td>
+                <td className="py-2 border-[1px] border-black dark:border-white">
+                  {formatDate(createdAt)}
+                </td>
+              </tr>
+            ),
+          )}
       </tbody>
     </table>
   );
@@ -64,8 +81,10 @@ ProjectTable.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      collectionCount: PropTypes.number.isRequired,
+      sheetUrl: PropTypes.string.isRequired,
+      dbUrl: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
+      collectionCount: PropTypes.number.isRequired,
     }),
   ).isRequired,
 };
