@@ -2,10 +2,10 @@ import { MdOutlineDone } from "react-icons/md";
 import PropTypes from "prop-types";
 import Spinner from "../Spinner";
 
-function Step({ children, stepInfo }) {
+function Step({ children, done }) {
   return (
     <li className="flex flex-col gap-5  items-center w-full ">
-      {stepInfo.done ? (
+      {done ? (
         <MdOutlineDone size={36} className="text-text-500" />
       ) : (
         <Spinner />
@@ -18,10 +18,7 @@ function Step({ children, stepInfo }) {
 }
 
 Step.propTypes = {
-  stepInfo: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    done: PropTypes.bool.isRequired,
-  }).isRequired,
+  done: PropTypes.bool.isRequired,
   children: PropTypes.string.isRequired,
 };
 

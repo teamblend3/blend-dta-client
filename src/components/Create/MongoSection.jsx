@@ -65,12 +65,12 @@ function MongoSection() {
           options={dbTableList}
           value={projectInfo.dbTableName}
           handleChange={handleChange("dbTableName")}
-          disabled={!dbTableList.length || disabledFields.dbTableName}
+          disabled={!(dbTableList.length || disabledFields.dbTableName)}
         />
         <Button
           type="submit"
           onClick={handleDatabaseSubmit}
-          disabled={errors.dbUrl}
+          disabled={Boolean(errors.dbUrl)}
         >
           Submit
         </Button>
