@@ -4,16 +4,16 @@ import Description from "../../components/Info/Description";
 
 function Home() {
   return (
-    <div className="w-7/12 xl:flex items-center space-x-20 xl:w-8/12 2xl:w-6/12 mx-auto py-20 max-w-screen-xl">
-      <div className="w-7/12">
+    <div className="flex justify-center items-center h-full">
+      <div className="flex gap-10 xl:w-8/12 2xl:w-6/12 mx-auto max-w-screen-xl">
         <Description />
-      </div>
-      <div className="flex w-5/12 gap-10 items-center">
-        <div className="w-full text-center">
-          <img src={MongoDbLogo} alt="MongoDB Logo" />
-        </div>
-        <div className="w-full text-center">
-          <img src={GoogleSheetsLogo} alt="GoogleSheets Logo" />
+        <div className="flex w-5/12 gap-10 items-center">
+          <img src={MongoDbLogo} className="w-6/12" alt="MongoDB Logo" />
+          <img
+            src={GoogleSheetsLogo}
+            className="w-6/12"
+            alt="GoogleSheets Logo"
+          />
         </div>
       </div>
     </div>
