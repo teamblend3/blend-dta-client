@@ -7,20 +7,25 @@ import { DB_URL } from "../../utils/constants";
 import Button from "../Button/Button";
 
 function MongoSection() {
-  const { projectInfo, errors, setError, setProjectInfo, disabledFields } =
-    useProjectStore(state => ({
-      projectInfo: state.projectInfo,
-      errors: state.errors,
-      disabledFields: state.disabledFields,
-      setProjectInfo: state.setProjectInfo,
-      setError: state.setError,
-      setDisabled: state.setDisabled,
-    }));
+  const {
+    projectInfo: { dbUrl, dbId, dbPassword, dbTableName },
+    errors,
+    setError,
+    setProjectInfo,
+    disabledFields,
+  } = useProjectStore(state => ({
+    projectInfo: state.projectInfo,
+    errors: state.errors,
+    disabledFields: state.disabledFields,
+    setProjectInfo: state.setProjectInfo,
+    setError: state.setError,
+    setDisabled: state.setDisabled,
+  }));
 
   const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
-  const handleChange = field => event => {
-    setProjectInfo(field, event.target.value);
+  const handleChange = field => e => {
+    setProjectInfo(field, e.target.value);
     setError(DB_URL, "");
     // error validate
   };
@@ -39,7 +44,7 @@ function MongoSection() {
             type="text"
             name="dbUrl"
             label="Database Url"
-            value={projectInfo.dbUrl}
+            value={dbUrl}
             handleChange={handleChange("dbUrl")}
             disabled={disabledFields.dbUrl}
           />
@@ -47,7 +52,7 @@ function MongoSection() {
             type="text"
             name="dbId"
             label="Database Id"
-            value={projectInfo.dbId}
+            value={dbId}
             handleChange={handleChange("dbId")}
             disabled={disabledFields.dbId}
           />
@@ -55,7 +60,7 @@ function MongoSection() {
             type="password"
             name="dbPassword"
             label="password"
-            value={projectInfo.dbPassword}
+            value={dbPassword}
             handleChange={handleChange("dbPassword")}
             disabled={disabledFields.dbPassword}
           />
@@ -63,7 +68,7 @@ function MongoSection() {
         <FormSelect
           id="tableName"
           options={dbTableList}
-          value={projectInfo.dbTableName}
+          value={dbTableName}
           handleChange={handleChange("dbTableName")}
           disabled={!(dbTableList.length || disabledFields.dbTableName)}
         />

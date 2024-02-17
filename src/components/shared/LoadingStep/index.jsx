@@ -1,34 +1,14 @@
-import { useState } from "react";
-
+import PropTypes from "prop-types";
 import Step from "./Step";
 import useProjectStore from "../../../stores/useProjectStore";
-import useTaskStatusQuery from "../../../hooks/useTaskStatus";
+import useTaskStatus from "../../../hooks/useTaskStatus";
 
-function LoadingStep() {
+function LoadingStep({ show }) {
   const {
     projectInfo: { sheetUrl },
   } = useProjectStore();
 
-  const [stepStatus, setStepStatus] = useState([
-    { name: "CONNECTED_DB_DONE", done: false },
-    { name: "FETCH_DATA_DONE", done: false },
-    { name: "DATA_FORMATTING_DONE", done: false },
-    { name: "TRANSFER_DATA_DONE", done: false },
-  ]);
-
-  const updateStepStatus = status => {
-    const stepIndex = stepStatus.findIndex(step => step.name === status);
-    const updatedSteps = stepStatus.map((step, index) => {
-      if (index <= stepIndex) {
-        return { ...step, done: true };
-      }
-      return step;
-    });
-
-    setStepStatus(updatedSteps);
-  };
-
-  useTaskStatusQuery(sheetUrl, updateStepStatus);
+  const stepStatus = useTaskStatus(show, sheetUrl);
 
   return (
     <ol className="w-full flex">
@@ -40,5 +20,9 @@ function LoadingStep() {
     </ol>
   );
 }
+
+LoadingStep.propTypes = {
+  show: PropTypes.bool.isRequired,
+};
 
 export default LoadingStep;

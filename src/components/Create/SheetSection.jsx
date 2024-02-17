@@ -31,7 +31,7 @@ function SheetSection() {
         <Button
           type="button"
           onClick={generateUrl}
-          disabled={!projectInfo || errors[SHEET_URL]}
+          disabled={Boolean(projectInfo.sheetUrl) || Boolean(errors[SHEET_URL])}
         >
           Generate
         </Button>

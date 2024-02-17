@@ -8,8 +8,8 @@ function FloatingInput({ type, name, label, value, handleChange, disabled }) {
         name={name}
         id={name}
         className="block py-2.5 px-0 w-full text-md text-text-950 bg-transparent border-0 border-b-2 border-text appearance-none focus:outline-none focus:ring-0 focus:border-primary-400 peer disabled:text-gray disabled:border-gray disabled:cursor-not-allowed"
-        placeholder=" "
-        autoComplete="false"
+        placeholder=""
+        autoComplete="on"
         value={value}
         onChange={handleChange}
         disabled={disabled}

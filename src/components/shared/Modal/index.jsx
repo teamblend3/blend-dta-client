@@ -29,9 +29,7 @@ function Modal() {
         withCredentials: true,
       });
     },
-    onSuccess: data => {
-      console.log(data);
-    },
+    onSuccess: data => {},
     onError: err => {
       console.log(err);
     },
@@ -45,7 +43,6 @@ function Modal() {
     if (!isValid) {
       return;
     }
-    console.log(`hi`);
     mutate(projectInfo);
     setShow(true);
   };
@@ -77,7 +74,7 @@ function Modal() {
           <div className="relative bg-secondary-100 rounded-lg shadow">
             <ModalHeader onCloseModal={handleDisAppearModal} />
             <div className="p-4 md:p-5 space-y-4">
-              <LoadingStep />
+              <LoadingStep show={show} />
             </div>
             <ModalFooter onCloseModal={handleDisAppearModal} />
           </div>
