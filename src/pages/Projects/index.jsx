@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import ProjectTable from "./ProjectTable";
 import Spinner from "../../components/shared/Spinner";
 import useUserProjects from "../../hooks/useUserProjects";
 import LogViewer from "./LogViewer";
 import Button from "../../components/Button/Button";
 import Pagination from "../../components/Pagination";
+import ProjectTable from "../../components/ProjectsTable";
 
 function Projects() {
   const [currentPage, setCurrentPage] = useState(1);

@@ -16,13 +16,19 @@ function Button({ type, children, style, onClick, disabled }) {
 
 Button.defaultProps = {
   disabled: false,
+  style: DEFAULT_BUTTON_STYLE,
   onClick: () => {},
 };
 
 Button.propTypes = {
   type: PropTypes.string.isRequired,
-  style: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
+  style: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.element,
+  ]).isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
 };

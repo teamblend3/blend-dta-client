@@ -76,7 +76,7 @@ function UserInfo() {
         <Button
           type="submit"
           style={USER_PROFILE_SAVE_BUTTON_STYLE}
-          disabled={emailError || userNameError}
+          disabled={Boolean(emailError || userNameError)}
         >
           {loading ? <SmallSpinner /> : "save"}
         </Button>

@@ -25,10 +25,10 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }],
     "no-param-reassign": "error",
-    "no-underscore-dangle": "error",
+    "no-underscore-dangle": "off",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
   },
-}
+};
