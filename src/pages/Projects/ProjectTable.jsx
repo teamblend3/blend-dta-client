@@ -6,10 +6,23 @@ import formatDate from "../../utils/dateUtil";
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
 
 function ProjectTable({ currentPage, projects }) {
-  console.log(projects);
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
+    const endIndex = currentPage * PROJECTS_PER_PAGE;
+    return projects.slice(startIndex, endIndex);
+  };
+
+  const fillEmptyItems = currentPageItems => {
+    const filledItems = Array(PROJECTS_PER_PAGE).fill("");
+    return currentPageItems.concat(filledItems.slice(currentPageItems.length));
+  };
+
+  const currentPageItems = getCurrentPageItems();
+  const filledItems = fillEmptyItems(currentPageItems);
+
   return (
     <table className="w-full text-base text-left text-text-950 my-2 border-[1px]">
-      <thead className="text-xs text-center text-text-500 uppercase">
+      <thead className="text-sm text-center text-text-500 uppercase">
         <tr>
           <th className="py-2 border-[1px] border-black dark:border-white w-1/12">
             No.
@@ -32,44 +45,43 @@ function ProjectTable({ currentPage, projects }) {
         </tr>
       </thead>
       <tbody>
-        {projects
-          .slice(
-            (currentPage - 1) * PROJECTS_PER_PAGE,
-            currentPage * PROJECTS_PER_PAGE,
-          )
-          .map(
-            (
-              { _id, title, dbUrl, sheetUrl, collectionCount, createdAt },
-              index,
-            ) => (
-              <tr
-                key={_id}
-                className="bg-transparent border-b-[1px] text-center text-sm border-[1px] border-black dark:border-white"
-              >
-                <td className="py-2 font-medium whitespace-nowrap border-[1px] border-black dark:border-white">
-                  {(currentPage - 1) * PROJECTS_PER_PAGE + index + 1}
-                </td>
-                <td className="py-2 border-[1px] border-black dark:border-white">
-                  <Link to={`/projects/${_id}`}>{title}</Link>
-                </td>
-                <td className="py-2 border-[1px] border-black dark:border-white">
-                  {dbUrl}
-                </td>
-                <td className="py-2 border-[1px] border-black dark:border-white">
+        {filledItems.map(
+          (
+            { _id, title, dbUrl, sheetUrl, collectionCount, createdAt },
+            index,
+          ) => (
+            <tr
+              key={_id || index}
+              className="bg-transparent border-b-[1px] text-center text-sm border-[1px] border-black dark:border-white h-10"
+            >
+              <td className="py-2 font-medium whitespace-nowrap border-[1px] border-black dark:border-white">
+                {_id ? (currentPage - 1) * PROJECTS_PER_PAGE + index + 1 : ""}
+              </td>
+              <td className="py-2 border-[1px] border-black dark:border-white">
+                {_id ? <Link to={`/projects/${_id}`}>{title}</Link> : ""}
+              </td>
+              <td className="py-2 border-[1px] border-black dark:border-white">
+                {_id ? dbUrl : ""}
+              </td>
+              <td className="py-2 border-[1px] border-black dark:border-white">
+                {_id ? (
                   <Link to={sheetUrl} className="inline-block">
                     <FaExternalLinkAlt />
                     <span className="sr-only">Open external link</span>
                   </Link>
-                </td>
-                <td className="py-2 border-[1px] border-black dark:border-white">
-                  {collectionCount}
-                </td>
-                <td className="py-2 border-[1px] border-black dark:border-white">
-                  {formatDate(createdAt)}
-                </td>
-              </tr>
-            ),
-          )}
+                ) : (
+                  ""
+                )}
+              </td>
+              <td className="py-2 border-[1px] border-black dark:border-white">
+                {_id ? collectionCount : ""}
+              </td>
+              <td className="py-2 border-[1px] border-black dark:border-white">
+                {_id ? formatDate(createdAt) : ""}
+              </td>
+            </tr>
+          ),
+        )}
       </tbody>
     </table>
   );

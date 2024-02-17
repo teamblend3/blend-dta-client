@@ -27,8 +27,8 @@ function LogViewer() {
       <textarea
         value={logsText}
         readOnly
-        rows={10}
-        className="w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-xs text-gray dark:border-white"
+        rows={12}
+        className="w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white"
       />
     </div>
   );
