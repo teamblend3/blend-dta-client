@@ -7,8 +7,9 @@ import ModalFooter from "./ModalFooter";
 import ModalHeader from "./ModalHeader";
 import useProjectStore from "../../../stores/useProjectStore";
 import LoadingStep from "../LoadingStep";
-import ModalButton from "./ModalButton";
 import validateProjectInfo from "../../../utils/validates";
+import Button from "../../Button/Button";
+import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
 
 function Modal() {
   const [show, setShow] = useState(false);
@@ -44,6 +45,7 @@ function Modal() {
     if (!isValid) {
       return;
     }
+    console.log(`hi`);
     mutate(projectInfo);
     setShow(true);
   };
@@ -55,10 +57,15 @@ function Modal() {
 
   return (
     <>
-      <ModalButton onOpenModal={handleSynchronize}>
+      <Button
+        type="button"
+        style={SYNCHRONIZE_BUTTON_STYLE}
+        onClick={handleSynchronize}
+        disabled={false}
+      >
         <AiOutlineSync className="font-bold text-base" />
         Synchronize
-      </ModalButton>
+      </Button>
 
       <div
         id="default-modal"

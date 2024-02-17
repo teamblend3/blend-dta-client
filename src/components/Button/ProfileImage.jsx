@@ -65,9 +65,6 @@ function ProfileImage() {
         type="button"
         className={`flex text-sm dark:bg-primary-800 rounded-full md:me-0 ring-4 ${isDropdownOpen ? "dark:ring-accent-400 ring-primary-600" : "dark:ring-accent-600 ring-primary-800"}`}
         id="user-menu-button"
-        aria-expanded="false"
-        data-dropdown-toggle="user-dropdown"
-        data-dropdown-placement="bottom"
         onClick={toggleDropdown}
       >
         <img

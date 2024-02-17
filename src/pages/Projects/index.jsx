@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import ProjectTable from "./ProjectTable";
 import Spinner from "../../components/shared/Spinner";
 import useUserProjects from "../../hooks/useUserProjects";
 import LogViewer from "./LogViewer";
-import LinkButton from "../../components/Button/LinkButton";
+import Button from "../../components/Button/Button";
 
 function Projects() {
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const { isLoading, isError, error, data } = useUserProjects();
 
   if (isLoading) return <Spinner />;
@@ -17,9 +19,13 @@ function Projects() {
   return (
     <div className="w-8/12 flex-col items-center mx-auto max-w-screen-xl py-5">
       <div className="flex justify-end w-full">
-        <LinkButton to="/projects/new">
+        <Button
+          type="button"
+          onClick={() => navigate("/projects/new")}
+          disabled={false}
+        >
           Create New Project <GrLinkNext size={20} />
-        </LinkButton>
+        </Button>
       </div>
 
       <section className="flex flex-col relative overflow-x-auto justify-center items-center mt-4">

@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
+
 import { IoMdClose } from "react-icons/io";
+import Button from "../../Button/Button";
+import { CLOSE_MODAL_HEADER_BUTTON_STYLE } from "../../../utils/styleConstants";
 
 function ModalHeader({ onCloseModal }) {
   return (
@@ -7,15 +10,13 @@ function ModalHeader({ onCloseModal }) {
       <h3 className="text-xl font-semibold text-text-900">
         Synchronize DB to Sheet
       </h3>
-      <button
+      <Button
         type="button"
-        aria-label="Close modal"
-        className="text-text-400 bg-transparent hover:bg-secondary-200 hover:text-text-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-        data-modal-hide="default-modal"
+        style={CLOSE_MODAL_HEADER_BUTTON_STYLE}
         onClick={onCloseModal}
       >
-        <IoMdClose />
-      </button>
+        <IoMdClose size={20} />
+      </Button>
     </div>
   );
 }

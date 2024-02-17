@@ -8,6 +8,8 @@ import SmallSpinner from "../shared/SmallSpinner";
 import useAuthStore from "../../stores/useAuthStore";
 import useUpdateProfile from "../../hooks/useUpdateProfile";
 import useValidation from "../../hooks/useValidation";
+import Button from "../Button/Button";
+import { USER_PROFILE_SAVE_BUTTON_STYLE } from "../../utils/styleConstants";
 
 function UserInfo() {
   const { userInfo } = useAuthStore();
@@ -71,13 +73,13 @@ function UserInfo() {
           />
           {userNameError && <FormError errorMessage={userNameError} />}
         </div>
-        <button
+        <Button
           type="submit"
-          className="w-20 h-10 text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800 uppercase cursor-pointer disabled:bg-primary-300 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:bg-primary-400 disabled:hover:shadow-none"
+          style={USER_PROFILE_SAVE_BUTTON_STYLE}
           disabled={emailError || userNameError}
         >
           {loading ? <SmallSpinner /> : "save"}
-        </button>
+        </Button>
       </form>
     </div>
   );

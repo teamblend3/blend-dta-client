@@ -1,10 +1,10 @@
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
-import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
 import useValidateDb from "../../hooks/useValidateDb";
 import useProjectStore from "../../stores/useProjectStore";
 import { DB_URL } from "../../utils/constants";
+import Button from "../Button/Button";
 
 function MongoSection() {
   const { projectInfo, errors, setError, setProjectInfo, disabledFields } =
@@ -67,13 +67,13 @@ function MongoSection() {
           handleChange={handleChange("dbTableName")}
           disabled={!dbTableList.length || disabledFields.dbTableName}
         />
-        <FormButton
+        <Button
           type="submit"
-          handleClick={handleDatabaseSubmit}
+          onClick={handleDatabaseSubmit}
           disabled={errors.dbUrl}
         >
           Submit
-        </FormButton>
+        </Button>
       </form>
       {errors[DB_URL] && <FormError errorMessage={errors[DB_URL]} />}
     </section>
