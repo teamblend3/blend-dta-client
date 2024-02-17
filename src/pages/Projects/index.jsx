@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { GrLinkNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import Pagination from "./Pagination";
 import ProjectTable from "./ProjectTable";
 import Spinner from "../../components/shared/Spinner";
 import useUserProjects from "../../hooks/useUserProjects";
 import LogViewer from "./LogViewer";
 import Button from "../../components/Button/Button";
+import Pagination from "../../components/Pagination";
 
 function Projects() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +39,6 @@ function Projects() {
               totalLength={data.projectsLength}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              style={{ margin: "auto" }}
             />
           </>
         ) : (
