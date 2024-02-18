@@ -1,3 +1,6 @@
+import TextArea from "../../components/Form/TextArea";
+import { LOGS_PREVIEWER_STYLE } from "../../utils/styleConstants";
+
 function LogsSection() {
   const generateLogs = () => {
     const logs = [];
@@ -26,12 +29,7 @@ function LogsSection() {
     <section className="mt-4">
       <h2 className="font-bold text-lg text-text-950 uppercase">Logs Viewer</h2>
       <div className="items-center justify-center w-full">
-        <textarea
-          value={logsText}
-          readOnly
-          rows={12}
-          className="w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white"
-        />
+        <TextArea data={logsText} style={LOGS_PREVIEWER_STYLE} />
       </div>{" "}
     </section>
   );
