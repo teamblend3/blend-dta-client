@@ -1,52 +1,50 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-
-import formatDate from "../../utils/dateUtil";
+import { useLocation } from "react-router-dom";
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
+import TableRow from "./TableRow";
+import TableHead from "./TableHead";
 
 function ProjectTable({ currentPage, projects }) {
-  const getCurrentPageItems = () => {
+  const { pathname } = useLocation();
+
+  const calculatePageItems = () => {
     const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
-    const endIndex = currentPage * PROJECTS_PER_PAGE;
-    return projects.slice(startIndex, endIndex);
+    return projects.slice(startIndex, startIndex + PROJECTS_PER_PAGE);
   };
 
-  const fillEmptyItems = currentPageItems => {
-    const filledItems = Array(PROJECTS_PER_PAGE).fill("");
-    return currentPageItems.concat(filledItems.slice(currentPageItems.length));
-  };
+  const isProjectsPage = pathname === "/projects";
+  const tableClass = isProjectsPage
+    ? "w-full text-base text-left text-text-950 my-2 border-[1px]"
+    : "w-full text-base text-left rtl:text-right text-primary-500 dark:text-primary-400 my-4";
 
-  const currentPageItems = getCurrentPageItems();
-  const filledItems = fillEmptyItems(currentPageItems);
+  const pageItems = calculatePageItems();
 
   return (
-    <table className="w-full text-base text-left rtl:text-right text-primary-500 dark:text-primary-400 my-4">
-      <thead className="text-sm text-center text-primary-700 uppercase bg-primary-50">
-        <tr>
-          <th className="px-6 py-2">No.</th>
-          <th className="px-6 py-2">Project name</th>
-          <th className="px-6 py-2">Collection</th>
-          <th className="px-6 py-2">Created At</th>
-        </tr>
-      </thead>
+    <table className={tableClass}>
+      <TableHead isProjectsPage={isProjectsPage} />
       <tbody>
-        {filledItems.map(
-          ({ _id, title, collectionCount, createdAt }, index) => (
-            <tr
-              className="bg-transparent border-b-2 border-primary-50 text-center h-11"
-              key={_id || index}
-            >
-              <th className="px-6 py-2 font-medium text-primary-900 whitespace-nowrap">
-                {_id ? (currentPage - 1) * PROJECTS_PER_PAGE + index + 1 : ""}
-              </th>
-              <td className="px-6 py-2 hover:text-secondary-300">
-                {_id ? <Link to={`/projects/${_id}`}>{title}</Link> : ""}
-              </td>
-              <td className="px-6 py-2">{_id ? collectionCount : ""}</td>
-              <td className="px-6 py-2">{_id ? formatDate(createdAt) : ""}</td>
-            </tr>
-          ),
-        )}
+        {pageItems.map((project, index) => (
+          <TableRow
+            key={project._id || `placeholder-${index}`}
+            currentPage={currentPage}
+            project={project}
+            index={index}
+            isProjectsPage={isProjectsPage}
+          />
+        ))}
+        {pageItems.length < PROJECTS_PER_PAGE &&
+          Array.from(
+            { length: PROJECTS_PER_PAGE - pageItems.length },
+            (_, index) => (
+              <TableRow
+                key={`placeholder-${index + pageItems.length}`}
+                currentPage={currentPage}
+                project={{}}
+                index={index + pageItems.length}
+                isProjectsPage={isProjectsPage}
+              />
+            ),
+          )}
       </tbody>
     </table>
   );
@@ -56,10 +54,12 @@ ProjectTable.propTypes = {
   currentPage: PropTypes.number.isRequired,
   projects: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      collectionCount: PropTypes.number.isRequired,
-      createdAt: PropTypes.string.isRequired,
+      _id: PropTypes.string,
+      title: PropTypes.string,
+      dbUrl: PropTypes.string,
+      sheetUrl: PropTypes.string,
+      collectionCount: PropTypes.number,
+      createdAt: PropTypes.string,
     }),
   ).isRequired,
 };

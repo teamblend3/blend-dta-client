@@ -1,9 +1,9 @@
 import FloatingInput from "../Form/FloatingInput";
-import FormButton from "../Form/FormButton";
 import FormError from "../Form/FormError";
 import useGenerateUrl from "../../hooks/useGenerateUrl";
 import useProjectStore from "../../stores/useProjectStore";
 import { SHEET_URL } from "../../utils/constants";
+import Button from "../Button/Button";
 
 function SheetSection() {
   const { projectInfo, setProjectInfo, errors, setError, disabledFields } =
@@ -28,9 +28,13 @@ function SheetSection() {
           handleChange={handleChange("sheetUrl")}
           disabled={disabledFields.sheetUrl}
         />
-        <FormButton type="button" handleClick={generateUrl}>
+        <Button
+          type="button"
+          onClick={generateUrl}
+          disabled={Boolean(projectInfo.sheetUrl) || Boolean(errors[SHEET_URL])}
+        >
           Generate
-        </FormButton>
+        </Button>
       </div>
       {errors[SHEET_URL] && <FormError errorMessage={errors[SHEET_URL]} />}
     </section>

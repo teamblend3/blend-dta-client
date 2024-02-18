@@ -7,8 +7,9 @@ import ModalFooter from "./ModalFooter";
 import ModalHeader from "./ModalHeader";
 import useProjectStore from "../../../stores/useProjectStore";
 import LoadingStep from "../LoadingStep";
-import ModalButton from "./ModalButton";
 import validateProjectInfo from "../../../utils/validates";
+import Button from "../../Button/Button";
+import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
 
 function Modal() {
   const [show, setShow] = useState(false);
@@ -28,9 +29,7 @@ function Modal() {
         withCredentials: true,
       });
     },
-    onSuccess: data => {
-      console.log(data);
-    },
+    onSuccess: data => {},
     onError: err => {
       console.log(err);
     },
@@ -55,10 +54,15 @@ function Modal() {
 
   return (
     <>
-      <ModalButton onOpenModal={handleSynchronize}>
+      <Button
+        type="button"
+        style={SYNCHRONIZE_BUTTON_STYLE}
+        onClick={handleSynchronize}
+        disabled={false}
+      >
         <AiOutlineSync className="font-bold text-base" />
         Synchronize
-      </ModalButton>
+      </Button>
 
       <div
         id="default-modal"
@@ -70,7 +74,7 @@ function Modal() {
           <div className="relative bg-secondary-100 rounded-lg shadow">
             <ModalHeader onCloseModal={handleDisAppearModal} />
             <div className="p-4 md:p-5 space-y-4">
-              <LoadingStep />
+              <LoadingStep show={show} />
             </div>
             <ModalFooter onCloseModal={handleDisAppearModal} />
           </div>

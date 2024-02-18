@@ -1,20 +1,23 @@
 import { IoLogoGoogle } from "react-icons/io";
 
 import useGoogleAuth from "../../hooks/useGoogleAuth";
+import Button from "../../components/Button/Button";
+import { GOOGLE_LOGIN_BUTTON_STYLE } from "../../utils/styleConstants";
 
 function Login() {
   const mutate = useGoogleAuth();
 
   return (
     <div className="flex h-full justify-center items-center">
-      <button
+      <Button
         type="button"
-        className="flex gap-2 items-center text-text-950 bg-primary-400 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary font-bold rounded-md text-xl w-full sm:w-auto px-6 py-2.5 text-center hover:-translate-y-0.5 hover:shadow-xl transform transition-transform ease-in-out duration-150"
         onClick={mutate}
+        style={GOOGLE_LOGIN_BUTTON_STYLE}
+        disabled={false}
       >
         <IoLogoGoogle />
         Login with Google
-      </button>
+      </Button>
     </div>
   );
 }

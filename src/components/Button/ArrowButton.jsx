@@ -1,23 +1,34 @@
 import PropTypes from "prop-types";
-import ArrowIcon from "./ArrowIcon";
+import {
+  MdOutlineArrowBackIosNew,
+  MdOutlineArrowForwardIos,
+} from "react-icons/md";
+import Button from "./Button";
+import { getStyleArrowButton } from "../../utils/styleUtils";
 
-function ArrowButton({ direction, onClick }) {
+function ArrowButton({ usePage, direction, onClick }) {
   return (
     <li>
-      <button
+      <Button
+        type="button"
         onClick={onClick}
-        className={`cursor-pointer flex items-center justify-center px-3 h-8 leading-tight text-primary-500 bg-transparent border border-primary-300 ${direction === "left" ? "rounded-s-lg" : "rounded-e-lg"} hover:bg-primary-400 hover:text-primary-900`}
+        style={getStyleArrowButton(usePage, direction)}
       >
         <span className="sr-only">
           {direction === "left" ? "Previous" : "Next"}
         </span>
-        <ArrowIcon direction={direction} />
-      </button>
+        {direction === "left" ? (
+          <MdOutlineArrowBackIosNew />
+        ) : (
+          <MdOutlineArrowForwardIos />
+        )}
+      </Button>
     </li>
   );
 }
 
 ArrowButton.propTypes = {
+  usePage: PropTypes.string.isRequired,
   direction: PropTypes.oneOf(["left", "right"]).isRequired,
   onClick: PropTypes.func.isRequired,
 };

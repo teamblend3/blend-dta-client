@@ -1,17 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import LinkButtonItem from "../Button/LinkButtonItem";
 import ProfileImage from "../Button/ProfileImage";
 import DarkLogo from "../../assets/images/teamblend_logo.png";
 import LightLogo from "../../assets/images/teamblend_light_logo.png";
 import useThemeStore from "../../stores/useThemeStore";
 import useAuthStore from "../../stores/useAuthStore";
 import useAuthStatus from "../../hooks/useAuthStatus";
+import Button from "../Button/Button";
 
 function Header() {
   const { isDark } = useThemeStore();
   const { userInfo } = useAuthStore();
   const { isLoading } = useAuthStatus();
+  const navigate = useNavigate();
 
   return (
     <header className="w-full bg-background-50 px-4 fixed border-b-2 border-b-accent-900 dark:border-b-accent-500 shadow-accent-900 dark:shadow-accent-500 shadow-sm z-10">
@@ -32,7 +33,13 @@ function Header() {
               {userInfo ? (
                 <ProfileImage />
               ) : (
-                <LinkButtonItem to="/login">Login</LinkButtonItem>
+                <Button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  disabled={false}
+                >
+                  Login
+                </Button>
               )}
             </ul>
           )}

@@ -1,6 +1,6 @@
 function Description() {
   return (
-    <div className="text-lg text-text-900">
+    <div className="w-6/12 text-lg text-text-900">
       <h2 className="text-3xl text-text-800 font-bold mb-4">teamBlend</h2>
       <p>
         Our service seamlessly integrates your MongoDB database with Google
