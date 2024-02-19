@@ -21,3 +21,12 @@ export const SYNCHRONIZE_BUTTON_STYLE = `${BASE_BUTTON_STYLE} bg-secondary-400 h
 export const USER_PROFILE_SAVE_BUTTON_STYLE = `${BASE_BUTTON_STYLE} text-base font-bold uppercase border-2 border-primary-800 text-primary-600 w-20 h-10 hover:bg-primary-600 hover:text-primary-50`;
 
 export const GOOGLE_LOGIN_BUTTON_STYLE = `${BASE_BUTTON_STYLE} ${BG_PRIMARY} focus:ring-primary font-bold text-xl w-full sm:w-auto ${TRANSFORM_STYLE}`;
+
+export const DATA_PREVIEWER_STYLE =
+  "w-80 h-80 bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
+
+export const UPDATED_PREVIEWER_STYLE =
+  "w-80 h-80 bg-background-50 border-2 border-black p-1 mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
+
+export const LOGS_PREVIEWER_STYLE =
+  "w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
