@@ -1,3 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 function LogsSection() {
   const generateLogs = () => {
     const logs = [];
@@ -21,6 +24,14 @@ function LogsSection() {
         `${log.createdAt} | ${log.projectName} | Type: ${log.type} | message: "${log.message}"`,
     )
     .join("\n");
+
+  const { data } = useQuery({
+    queryKey: ["get-logs"],
+    queryFn: async () => {
+      const res = await axios.get("/api/users/projects/logs");
+      return res.data.logs;
+    },
+  });
 
   return (
     <section className="mt-4">

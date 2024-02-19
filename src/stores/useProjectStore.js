@@ -22,6 +22,18 @@ const useProjectStore = create(set => ({
     set(state => ({
       disabledFields: { ...state.disabledFields, [name]: isDisabled },
     })),
+  resetStore: () =>
+    set({
+      projectInfo: {
+        dbUrl: "",
+        dbId: "",
+        dbPassword: "",
+        dbTableName: "",
+        sheetUrl: "",
+      },
+      errors: {},
+      disabledFields: {},
+    }),
 }));
 
 export default useProjectStore;

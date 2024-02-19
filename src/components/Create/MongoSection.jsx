@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormError from "../Form/FormError";
@@ -13,6 +14,7 @@ function MongoSection() {
     setError,
     setProjectInfo,
     disabledFields,
+    resetStore,
   } = useProjectStore(state => ({
     projectInfo: state.projectInfo,
     errors: state.errors,
@@ -20,7 +22,12 @@ function MongoSection() {
     setProjectInfo: state.setProjectInfo,
     setError: state.setError,
     setDisabled: state.setDisabled,
+    resetStore: state.resetStore,
   }));
+
+  useEffect(() => {
+    resetStore();
+  }, []);
 
   const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
