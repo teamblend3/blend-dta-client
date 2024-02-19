@@ -25,6 +25,14 @@ function LogsSection() {
     )
     .join("\n");
 
+  const { data } = useQuery({
+    queryKey: ["get-logs"],
+    queryFn: async () => {
+      const res = await axios.get("/api/users/projects/logs");
+      return res.data.logs;
+    },
+  });
+
   return (
     <section className="mt-4">
       <h2 className="font-bold text-lg text-text-950 uppercase">Logs Viewer</h2>
