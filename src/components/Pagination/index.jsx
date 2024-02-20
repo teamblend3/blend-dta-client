@@ -35,7 +35,9 @@ function Pagination({ totalLength, currentPage, setCurrentPage }) {
         ))}
         <NextArrow
           usePage={pathname}
-          onClick={() => setCurrentPage(nextPageGroupFirstPage)}
+          onClick={() =>
+            currentPage > 1 && setCurrentPage(nextPageGroupFirstPage)
+          }
         />
       </ul>
     </nav>
