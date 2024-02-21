@@ -4,9 +4,8 @@ import { DROPDOWN_ITEM_STYLE } from "../../utils/styleConstants";
 
 function DropdownItem({ to, label, onClick, onMouseEnter, onMouseLeave }) {
   return (
-    <Link to={to} className={DROPDOWN_ITEM_STYLE}>
+    <Link to={to} className={DROPDOWN_ITEM_STYLE} onClick={onClick}>
       <button
-        onClick={onClick}
         onMouseEnter={() => onMouseEnter && onMouseEnter(label)}
         onMouseLeave={() => onMouseLeave && onMouseLeave(label)}
         type="button"
@@ -17,20 +16,20 @@ function DropdownItem({ to, label, onClick, onMouseEnter, onMouseLeave }) {
   );
 }
 
-DropdownItem.propTypes = {
-  to: PropTypes.string,
-  label: PropTypes.string,
-  onClick: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-};
-
 DropdownItem.defaultProps = {
   to: "",
   label: "",
   onClick: null,
   onMouseEnter: null,
   onMouseLeave: null,
+};
+
+DropdownItem.propTypes = {
+  to: PropTypes.string,
+  label: PropTypes.string,
+  onClick: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
 };
 
 export default DropdownItem;

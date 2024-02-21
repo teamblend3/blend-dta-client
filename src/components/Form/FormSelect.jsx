@@ -20,6 +20,7 @@ function FormSelect({ id, options, disabled, value, handleChange }) {
 
 FormSelect.defaultProps = {
   options: [],
+  disabled: false,
 };
 
 FormSelect.propTypes = {
@@ -29,7 +30,7 @@ FormSelect.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   value: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
 };
