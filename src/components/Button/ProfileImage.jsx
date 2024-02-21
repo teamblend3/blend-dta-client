@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-
-import { Link } from "react-router-dom";
+import DropdownBox from "../Dropdown/DropdownBox";
 import useAuthStore from "../../stores/useAuthStore";
 
 function ProfileImage() {
@@ -16,26 +15,6 @@ function ProfileImage() {
   };
 
   const handleMouseLeave = () => {
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 300);
-  };
-
-  const handleDropdownMouseEnter = () => {
-    clearTimeout(closeTimeoutRef.current);
-    setIsDropdownOpen(true);
-  };
-
-  const handleDropdownMouseLeave = () => {
-    setIsDropdownOpen(false);
-  };
-
-  const handleChildMouseEnter = () => {
-    clearTimeout(closeTimeoutRef.current);
-    setIsDropdownOpen(true);
-  };
-
-  const handleChildMouseLeave = () => {
     closeTimeoutRef.current = setTimeout(() => {
       setIsDropdownOpen(false);
     }, 300);
@@ -74,57 +53,11 @@ function ProfileImage() {
         />
       </button>
       {isDropdownOpen && (
-        <div
-          ref={dropdownRef}
-          className="absolute top-10 -right-2 list-none dark:bg-accent-400 bg-primary-400 rounded-md shadow divide-y dark:divide-accent-100 divide-primary-100"
-          onMouseEnter={handleDropdownMouseEnter}
-          onMouseLeave={handleDropdownMouseLeave}
-        >
-          <div className="p-4">
-            <span className="block text-base font-bold dark:text-accent-800 text-primary-800">
-              {userInfo.userName}
-            </span>
-            <span className="block text-sm text-primary-700 dark:text-accent-700 truncate">
-              {userInfo.email}
-            </span>
-          </div>
-          <ul className="list-none py-2">
-            <Link to="/profile">
-              <li
-                className="flex px-4 py-2 items-center cursor-pointer hover:bg-primary-800 hover:text-primary-100 dark:hover:bg-accent-800 dark:hover:text-accent-100 text-sm font-bold text-accent-800"
-                onMouseEnter={handleChildMouseEnter}
-                onMouseLeave={handleChildMouseLeave}
-              >
-                User Profile
-              </li>
-            </Link>
-            <Link to="/projects/new">
-              <li
-                className="flex px-4 py-2 items-center cursor-pointer hover:bg-primary-800 hover:text-primary-100 dark:hover:bg-accent-800 dark:hover:text-accent-100 text-sm font-bold text-accent-800"
-                onMouseEnter={handleChildMouseEnter}
-                onMouseLeave={handleChildMouseLeave}
-              >
-                Create Project
-              </li>
-            </Link>
-            <Link to="/projects">
-              <li
-                className="flex px-4 py-2 items-center cursor-pointer hover:bg-primary-800 hover:text-primary-100 dark:hover:bg-accent-800 dark:hover:text-accent-100 text-sm font-bold text-accent-800"
-                onMouseEnter={handleChildMouseEnter}
-                onMouseLeave={handleChildMouseLeave}
-              >
-                Project List
-              </li>
-            </Link>
-            <li
-              className="flex px-4 py-2 items-center cursor-pointer hover:bg-primary-800 hover:text-primary-100 dark:hover:bg-accent-800 dark:hover:text-accent-100 text-sm font-bold text-accent-800"
-              onMouseEnter={handleChildMouseEnter}
-              onMouseLeave={handleChildMouseLeave}
-            >
-              Logout
-            </li>
-          </ul>
-        </div>
+        <DropdownBox
+          userInfo={userInfo}
+          onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+          onMouseLeave={() => setIsDropdownOpen(false)}
+        />
       )}
     </div>
   );

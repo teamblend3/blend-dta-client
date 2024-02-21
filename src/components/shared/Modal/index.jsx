@@ -10,9 +10,11 @@ import LoadingStep from "../LoadingStep";
 import validateProjectInfo from "../../../utils/validates";
 import Button from "../../Button/Button";
 import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
+import { DUPLICATE_MESSAGE } from "../../../utils/constants";
 
 function Modal() {
   const [show, setShow] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { projectInfo, errors, setError } = useProjectStore(state => ({
     projectInfo: state.projectInfo,
@@ -25,13 +27,20 @@ function Modal() {
 
   const { mutate } = useMutation({
     mutationFn: async data => {
-      await axios.post("/api/projects/sync", data, {
+      const response = await axios.post("/api/projects/sync", data, {
         withCredentials: true,
       });
+      return response.data;
     },
-    onSuccess: data => {},
+    onSuccess: data => {
+      setErrorMessage("");
+      setShow(true);
+    },
     onError: err => {
-      console.log(err);
+      if (err.response.data.error === DUPLICATE_MESSAGE) {
+        setErrorMessage(DUPLICATE_MESSAGE);
+        setShow(false);
+      }
     },
     onSettled: () => {},
   });
@@ -63,6 +72,12 @@ function Modal() {
         <AiOutlineSync className="font-bold text-base" />
         Synchronize
       </Button>
+
+      {errorMessage && (
+        <div className="text-center font-bold text-text-900 p-2 underline">
+          {errorMessage}
+        </div>
+      )}
 
       <div
         id="default-modal"

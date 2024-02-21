@@ -14,6 +14,12 @@ function Pagination({ totalLength, currentPage, setCurrentPage }) {
     nextPageGroupFirstPage,
   } = usePagination(totalLength, currentPage);
 
+  const handleNextArrowClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(nextPageGroupFirstPage);
+    }
+  };
+
   return (
     <nav>
       <ul className="flex items-center -space-x-px h-8 text-sm">
@@ -33,10 +39,7 @@ function Pagination({ totalLength, currentPage, setCurrentPage }) {
             setCurrentPage={setCurrentPage}
           />
         ))}
-        <NextArrow
-          usePage={pathname}
-          onClick={() => setCurrentPage(nextPageGroupFirstPage)}
-        />
+        <NextArrow usePage={pathname} onClick={handleNextArrowClick} />
       </ul>
     </nav>
   );
