@@ -37,7 +37,7 @@ const useUserProjects = () => {
   useEffect(() => {
     const handleProjectUpdate = async () => {
       try {
-        const response = await axios.post("/api/createProject");
+        const response = await axios.post("/api/users/projects");
 
         if (response.data.success) {
           await refetch();
