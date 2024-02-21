@@ -1,9 +1,11 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import useAuthStore from "../stores/useAuthStore";
 
 const useGoogleAuth = () => {
+  const navigate = useNavigate();
   const { setUser } = useAuthStore();
 
   const login = useGoogleLogin({
@@ -14,6 +16,7 @@ const useGoogleAuth = () => {
         code: response.code,
       });
       setUser(userInfo);
+      navigate("/");
     },
     onError: error => {
       console.error("Google login error:", error);

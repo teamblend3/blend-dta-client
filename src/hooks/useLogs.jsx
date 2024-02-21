@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const useLogs = () => {
   return useQuery({
@@ -8,7 +8,6 @@ const useLogs = () => {
       const res = await axios.get("/api/users/projects/logs");
       return res.data.logs;
     },
-    refetchOnWindowFocus: true,
     refetchOnMount: true,
   });
 };

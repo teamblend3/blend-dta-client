@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   USER_PROJECT_CACHE_TIME,
   USER_PROJECT_STALE_TIME,
@@ -20,7 +21,6 @@ const useProject = () => {
     staleTime: USER_PROJECT_STALE_TIME,
     cacheTime: USER_PROJECT_CACHE_TIME,
     refetchOnMount: false,
-    refetchOnWindowFocus: false,
     refetchOnReconnect: "onWindowFocus",
     refetchIntervalInBackground: true,
   });

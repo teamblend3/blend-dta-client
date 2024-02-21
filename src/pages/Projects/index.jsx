@@ -1,8 +1,9 @@
 import { GrLinkNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/Button/Button";
+
 import ProjectsSection from "./ProjectsSection";
 import LogsSection from "./LogsSection";
+import Button from "../../components/Button/Button";
 
 function Projects() {
   const navigate = useNavigate();
