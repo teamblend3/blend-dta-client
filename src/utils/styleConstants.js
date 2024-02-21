@@ -23,10 +23,10 @@ export const USER_PROFILE_SAVE_BUTTON_STYLE = `${BASE_BUTTON_STYLE} text-base fo
 export const GOOGLE_LOGIN_BUTTON_STYLE = `${BASE_BUTTON_STYLE} ${BG_PRIMARY} focus:ring-primary font-bold text-xl w-full sm:w-auto ${TRANSFORM_STYLE}`;
 
 export const DATA_PREVIEWER_STYLE =
-  "w-80 h-80 bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
+  "w-full h-full bg-background-50 border-2 border-black p-1 overflow-y-scroll  tracking-widest resize-none text-sm text-gray dark:border-white";
 
 export const UPDATED_PREVIEWER_STYLE =
-  "w-80 h-80 bg-background-50 border-2 border-black p-1 mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
+  "w-full h-full bg-background-50 border-2 border-black p-1  tracking-widest resize-none text-sm text-gray dark:border-white";
 
 export const LOGS_PREVIEWER_STYLE =
   "w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";

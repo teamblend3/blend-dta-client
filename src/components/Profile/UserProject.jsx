@@ -9,6 +9,7 @@ function UserProject() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { isLoading, isError, error, data } = useUserProjects();
+
   if (isLoading) return <Spinner />;
   if (isError) return <div>Error: {error.message}</div>;
 

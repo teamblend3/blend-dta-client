@@ -1,24 +1,72 @@
+import PropTypes from "prop-types";
+
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import Schema from "./Schema";
 import TextArea from "../../components/Form/TextArea";
 import {
   DATA_PREVIEWER_STYLE,
   UPDATED_PREVIEWER_STYLE,
 } from "../../utils/styleConstants";
+import { transformData } from "../../utils/dataUtil";
+import Spinner from "../../components/shared/Spinner";
 
-function DataSection() {
+function DataSection({ schema, collection, dataPreview }) {
+  const { projectId } = useParams();
+  const { result, lastData } = transformData(schema, collection, dataPreview);
+
+  const {
+    data: logs,
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ["get-collection-logs"],
+    queryFn: async () => {
+      const res = await axios.get(`/api/projects/${projectId}/logs`);
+      return res.data.logs;
+    },
+  });
+
+  if (isLoading) return <Spinner />;
+  if (isError) return <div>Error: {error?.message || "Unknown error"}</div>;
+
+  const filteredLogs = logs?.filter(
+    log => log.collectionName === collection || log.collectionName === "all",
+  );
+
+  const logsText = filteredLogs
+    ?.map(log => {
+      const { createdAt, type, message } = log;
+      const formattedLogs = `${createdAt.slice(0, 16)} | Type: ${type} | message: "${message}"`;
+      return formattedLogs;
+    })
+    .join("\n");
+
   return (
-    <div className="flex items-center mt-10 space-x-10">
-      <Schema />
-      <div>
+    <div className="flex h-[30rem] justify-center items-start mt-10 space-x-5">
+      <Schema schemas={result} />
+      <div className="w-full h-full flex flex-col space-y-2">
         <h2 className="text-text-800 font-bold">Data Preview</h2>
-        <TextArea style={DATA_PREVIEWER_STYLE} />
+        <TextArea data={lastData} style={DATA_PREVIEWER_STYLE} />
       </div>
-      <div>
+      <div className="w-full h-full flex flex-col space-y-2">
         <h3 className="text-text-800 font-bold">Updated Status</h3>
-        <TextArea style={UPDATED_PREVIEWER_STYLE} />
+        <TextArea data={logsText} style={UPDATED_PREVIEWER_STYLE} />
       </div>
     </div>
   );
 }
+
+DataSection.defaultProps = {
+  dataPreview: [],
+};
+
+DataSection.propTypes = {
+  schema: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  collection: PropTypes.string.isRequired,
+  dataPreview: PropTypes.arrayOf(PropTypes.shape({})),
+};
 
 export default DataSection;

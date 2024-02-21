@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
-import formatDate from "../../utils/dateUtil";
+import { formatDate } from "../../utils/dataUtil";
 
 function TableRow({ currentPage, project, index, isProjectsPage }) {
-  const { _id, title, dbUrl, sheetUrl, collectionCount, createdAt } = project;
+  const { _id, title, dbUrl, sheetUrl, collectionNames, createdAt } = project;
 
   const itemNumber = _id
     ? (currentPage - 1) * PROJECTS_PER_PAGE + index + 1
@@ -36,7 +36,7 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
           </td>
         </>
       )}
-      <td className={cellClass}>{collectionCount}</td>
+      <td className={cellClass}>{collectionNames?.length}</td>
       <td className={cellClass}>{formatDate(createdAt)}</td>
     </tr>
   );
@@ -49,7 +49,7 @@ TableRow.propTypes = {
     title: PropTypes.string,
     dbUrl: PropTypes.string,
     sheetUrl: PropTypes.string,
-    collectionCount: PropTypes.number,
+    collectionNames: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
