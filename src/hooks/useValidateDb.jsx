@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+
 import useAuthStore from "../stores/useAuthStore";
 import useProjectStore from "../stores/useProjectStore";
 
@@ -10,7 +11,8 @@ const useValidateDb = () => {
   const [err, setErr] = useState("");
   const navigate = useNavigate();
 
-  const { projectInfo, setProjectInfo, setDisabled } = useProjectStore();
+  const { projectInfo, setProjectInfo, setError, setDisabled } =
+    useProjectStore();
   const { setUser } = useAuthStore();
 
   const validateDatabase = async data => {
@@ -41,10 +43,10 @@ const useValidateDb = () => {
       ["dbUrl", "dbId", "dbPassword"].forEach(field =>
         setDisabled(field, true),
       );
-      setErr("");
+      setError("dbUrl", "");
     },
     onError: error => {
-      setErr(error.message);
+      setError("dbUrl", error.message);
       setDbTableList([]);
     },
   });
