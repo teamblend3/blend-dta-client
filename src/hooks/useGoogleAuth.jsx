@@ -18,7 +18,7 @@ const useGoogleAuth = () => {
     onError: error => {
       console.error("Google login error:", error);
     },
-    scope: "https://www.googleapis.com/auth/spreadsheets",
+    scope: import.meta.env.VITE_GOOGLE_SHEET_SCOPE,
     flow: "auth-code",
   });
 
