@@ -74,7 +74,7 @@ function Modal() {
       </Button>
 
       {errorMessage && (
-        <div className="text-center font-bold text-text-900 p-2 underline">
+        <div className="text-center font-bold text-warn-500 p-2 underline">
           {errorMessage}
         </div>
       )}
