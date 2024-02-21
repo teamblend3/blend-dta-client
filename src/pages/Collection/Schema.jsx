@@ -32,42 +32,42 @@ function Schema({ schemas }) {
         <h3 className="text-text-800 font-bold flex-grow">Data Schema</h3>
         <RiFileExcel2Line className="flex-shrink-0" size="25" />
       </div>
-      <table className="w-full h-full text-base text-center text-text-950 my-2 border-[1px]">
-        <thead className="text-sm uppercase">
+      <table className="w-full h-full text-base text-center text-text-950 my-2 border border-collapse">
+        <thead className="text-sm uppercase border border-collapse">
           <tr>
-            <th className="border-[1px] border-black dark:border-white w-1/6">
+            <th className="flex py-2 justify-center items-center border-black dark:border-white">
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAllChange}
                 aria-labelledby="selectAllLabel"
+                className="w-checkbox-lg h-checkbox-lg cursor-pointer"
               />
             </th>
-            <th className="border-[1px] border-black dark:border-white w-3/6">
+            <th className="border border-black dark:border-white w-3/6">
               Field
             </th>
-            <th className="py-2 border-[1px] border-black dark:border-white w-2/6">
+            <th className="border  border-black dark:border-white w-2/6">
               Data Type
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="border border-collapse">
           {schemas?.map(({ field, type }) => (
-            <tr key={field}>
-              <td className="py-2 border-[1px] border-black dark:border-white">
+            <tr key={field} className="border">
+              <td className="flex h-full py-2 justify-center items-center">
                 <input
                   type="checkbox"
                   checked={selectedRows.includes(field)}
                   onChange={() => handleCheckboxChange(field)}
                   aria-labelledby={`${field}Label`}
+                  className="w-checkbox-lg h-checkbox-lg cursor-pointer"
                 />
               </td>
-              <td className="py-2 border-[1px] border-black dark:border-white">
+              <td className="border  border-black dark:border-white">
                 {field}
               </td>
-              <td className="py-2 border-[1px] border-black dark:border-white">
-                {type}
-              </td>
+              <td className="border  border-black dark:border-white">{type}</td>
             </tr>
           ))}
         </tbody>

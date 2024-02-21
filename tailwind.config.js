@@ -3,7 +3,16 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        "checkbox-lg": "1.125rem", // 체크 박스 너비를 24px로 설정하는 새로운 유틸리티 클래스
+        "checkbox-xl": "1.333rem", // 체크 박스 너비를 24px로 설정하는 새로운 유틸리티 클래스
+      },
+      height: {
+        "checkbox-lg": "1.125rem", // 체크 박스 높이를 24px로 설정하는 새로운 유틸리티 클래스
+        "checkbox-xl": "1.333rem", // 체크 박스 높이를 24px로 설정하는 새로운 유틸리티 클래스
+      },
+    },
     colors: {
       transparent: "transparent",
       gray: "gray",

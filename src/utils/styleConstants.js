@@ -29,7 +29,7 @@ export const UPDATED_PREVIEWER_STYLE =
   "w-full h-full bg-background-50 border-2 border-black p-1  tracking-widest resize-none text-sm text-gray dark:border-white";
 
 export const LOGS_PREVIEWER_STYLE =
-  "w-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
+  "w-full h-full bg-background-50 border-2 border-black p-1 overflow-y-scroll mt-2 tracking-widest resize-none text-sm text-gray dark:border-white";
 
 export const DROPDOWN_BOX_STYLE =
   "absolute top-10 -right-2 list-none dark:bg-accent-400 bg-primary-400 rounded-md shadow divide-y dark:divide-accent-100 divide-primary-100";
