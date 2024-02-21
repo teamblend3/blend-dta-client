@@ -30,7 +30,7 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
           <td className={cellClass}>{dbUrl}</td>
           <td className={cellClass}>
             <Link to={sheetUrl} className="inline-block">
-              <FaExternalLinkAlt />
+              {sheetUrl && <FaExternalLinkAlt />}
               <span className="sr-only">Open external link</span>
             </Link>
           </td>
