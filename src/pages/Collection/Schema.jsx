@@ -1,16 +1,9 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
+
 import { RiFileExcel2Line } from "react-icons/ri";
 
-const rows = [
-  { field: "_id", dataType: "String" },
-  { field: "name", dataType: "String" },
-  { field: "email", dataType: "String" },
-  { field: "movie_id", dataType: "Number" },
-  { field: "text", dataType: "String" },
-  { field: "date", dataType: "Date" },
-];
-
-function Schema() {
+function Schema({ schemas }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -28,18 +21,18 @@ function Schema() {
     if (selectAll) {
       setSelectedRows([]);
     } else {
-      setSelectedRows(rows.map(({ field }) => field));
+      setSelectedRows(schemas.map(({ field }) => field));
     }
     setSelectAll(!selectAll);
   };
 
   return (
-    <div>
+    <div className="flex flex-col w-full h-full space-y-2">
       <div className="flex items-center">
         <h3 className="text-text-800 font-bold flex-grow">Data Schema</h3>
         <RiFileExcel2Line className="flex-shrink-0" size="25" />
       </div>
-      <table className="w-80 text-base text-center text-text-950 my-2 border-[1px]">
+      <table className="w-full h-full text-base text-center text-text-950 my-2 border-[1px]">
         <thead className="text-sm uppercase">
           <tr>
             <th className="border-[1px] border-black dark:border-white w-1/6">
@@ -50,17 +43,17 @@ function Schema() {
                 aria-labelledby="selectAllLabel"
               />
             </th>
-            <th className="border-[1px] border-black dark:border-white w-2/5">
+            <th className="border-[1px] border-black dark:border-white w-3/6">
               Field
             </th>
-            <th className="py-2 border-[1px] border-black dark:border-white w-2/5">
+            <th className="py-2 border-[1px] border-black dark:border-white w-2/6">
               Data Type
             </th>
           </tr>
         </thead>
-        <tbody style={{ height: `${rows.length * 47}px` }}>
-          {rows.map(({ field, dataType }) => (
-            <tr key={field} className="h-10">
+        <tbody>
+          {schemas?.map(({ field, type }) => (
+            <tr key={field}>
               <td className="py-2 border-[1px] border-black dark:border-white">
                 <input
                   type="checkbox"
@@ -73,7 +66,7 @@ function Schema() {
                 {field}
               </td>
               <td className="py-2 border-[1px] border-black dark:border-white">
-                {dataType}
+                {type}
               </td>
             </tr>
           ))}
@@ -82,5 +75,14 @@ function Schema() {
     </div>
   );
 }
+
+Schema.propTypes = {
+  schemas: PropTypes.arrayOf(
+    PropTypes.shape({
+      field: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  ).isRequired,
+};
 
 export default Schema;

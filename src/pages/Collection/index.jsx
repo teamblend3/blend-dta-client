@@ -1,15 +1,42 @@
 import DataSection from "./DataSection";
 import SelectSection from "./SelectSection";
+import Spinner from "../../components/shared/Spinner";
+import useProject from "../../hooks/useProject";
 
 function Collection() {
+  const {
+    collection,
+    setCollection,
+    project,
+    schema,
+    dataPreview,
+    error,
+    isLoading,
+    isError,
+  } = useProject();
+
+  if (isLoading) return <Spinner />;
+  if (isError) return <div>Error: {error?.message || "Unknown error"}</div>;
+  if (!collection && project?.collectionNames?.length) {
+    setCollection(project.collectionNames[0]);
+  }
+
   return (
-    <div className="w-8/12 flex justify-center items-center h-full">
-      <div className="xl:w-8/12 2xl:w-6/12 mx-auto max-w-screen-xl">
+    <div className="flex justify-center items-center h-full">
+      <div className="flex flex-col xl:w-8/12 2xl:w-6/12 mx-auto max-w-screen-xl">
         <h1 className="font-bold text-2xl text-text-950 uppercase">
           Project Details
         </h1>
-        <SelectSection />
-        <DataSection />
+        <SelectSection
+          list={project.collectionNames}
+          collection={collection}
+          setCollection={setCollection}
+        />
+        <DataSection
+          schema={schema}
+          collection={collection}
+          dataPreview={dataPreview[collection]}
+        />
       </div>
     </div>
   );

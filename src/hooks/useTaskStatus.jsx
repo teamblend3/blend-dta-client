@@ -33,8 +33,9 @@ const useTaskStatus = (show, sheetUrl) => {
         withCredentials: true,
       },
     );
-    console.log(response);
+
     updateStepStatus(response.data.status);
+
     return response.data;
   };
 
