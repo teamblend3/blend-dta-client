@@ -30,7 +30,10 @@ function Schema({ schemas }) {
     <div className="flex flex-col w-full h-full space-y-2">
       <div className="flex items-center">
         <h3 className="text-text-800 font-bold flex-grow">Data Schema</h3>
-        <RiFileExcel2Line className="flex-shrink-0" size="25" />
+        <RiFileExcel2Line
+          className="flex-shrink-0 text-primary-500"
+          size="25"
+        />
       </div>
       <table className="w-full h-full text-base text-center text-text-950 my-2 border border-collapse">
         <thead className="text-sm uppercase border border-collapse">
