@@ -8,14 +8,14 @@ import CreateProject from "./pages/Create";
 import CollectionPage from "./pages/Collection";
 import useAuthStore from "./stores/useAuthStore";
 import useAuthStatus from "./hooks/useAuthStatus";
-import Spinner from "./components/shared/Spinner";
+import Loading from "./components/shared/Loading";
 
 function PrivateRoute() {
   const { isLoading } = useAuthStatus();
   const { userInfo } = useAuthStore();
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loading />;
   }
 
   return userInfo ? <Outlet /> : <Navigate to="/login" replace />;
@@ -26,7 +26,7 @@ function PublicRoute() {
   const { userInfo } = useAuthStore();
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loading />;
   }
 
   return userInfo ? <Navigate to="/" replace /> : <Outlet />;
@@ -37,6 +37,7 @@ const routes = [
     element: <Layout />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/loading", element: <Loading /> },
       {
         element: <PublicRoute />,
         children: [{ path: "/login", element: <Login /> }],

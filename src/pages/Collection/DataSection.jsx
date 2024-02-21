@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+
 import Schema from "./Schema";
 import TextArea from "../../components/Form/TextArea";
+import Loading from "../../components/shared/Loading";
+
 import {
   DATA_PREVIEWER_STYLE,
   UPDATED_PREVIEWER_STYLE,
 } from "../../utils/styleConstants";
 import { transformData } from "../../utils/dataUtil";
-import Spinner from "../../components/shared/Spinner";
 
 function DataSection({ schema, collection, dataPreview }) {
   const { projectId } = useParams();
@@ -29,7 +31,7 @@ function DataSection({ schema, collection, dataPreview }) {
     },
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error?.message || "Unknown error"}</div>;
 
   const filteredLogs = logs?.filter(
