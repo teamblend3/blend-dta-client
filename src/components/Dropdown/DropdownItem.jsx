@@ -3,26 +3,12 @@ import { Link } from "react-router-dom";
 import { DROPDOWN_ITEM_STYLE } from "../../utils/styleConstants";
 
 function DropdownItem({ to, label, onClick, onMouseEnter, onMouseLeave }) {
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
-    }
-  };
-
-  const handleKeyPress = event => {
-    if ((event.key === "Enter" || event.key === " ") && onClick) {
-      onClick();
-    }
-  };
-
   return (
     <Link to={to} className={DROPDOWN_ITEM_STYLE}>
       <button
-        onClick={handleClick}
+        onClick={onClick}
         onMouseEnter={() => onMouseEnter && onMouseEnter(label)}
         onMouseLeave={() => onMouseLeave && onMouseLeave(label)}
-        onKeyPress={handleKeyPress}
-        tabIndex={0}
         type="button"
       >
         {label}
@@ -32,14 +18,16 @@ function DropdownItem({ to, label, onClick, onMouseEnter, onMouseLeave }) {
 }
 
 DropdownItem.propTypes = {
-  to: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  to: PropTypes.string,
+  label: PropTypes.string,
   onClick: PropTypes.func,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
 };
 
 DropdownItem.defaultProps = {
+  to: "",
+  label: "",
   onClick: null,
   onMouseEnter: null,
   onMouseLeave: null,
