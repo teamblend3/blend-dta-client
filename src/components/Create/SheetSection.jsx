@@ -7,23 +7,15 @@ import { SHEET_URL } from "../../utils/constants";
 import Button from "../Button/Button";
 
 function SheetSection() {
-  const {
-    projectInfo,
-    setProjectInfo,
-    errors,
-    setError,
-    setDisabled,
-    disabledFields,
-  } = useProjectStore(state => ({
-    projectInfo: state.projectInfo,
-    errors: state.errors,
-    disabledFields: state.disabledFields,
-    setProjectInfo: state.setProjectInfo,
-    setError: state.setError,
-    setDisabled: state.setDisabled,
-    resetStore: state.resetStore,
-  }));
-  const { generateUrl } = useGenerateUrl();
+  const { projectInfo, setProjectInfo, errors, setError } = useProjectStore(
+    state => ({
+      projectInfo: state.projectInfo,
+      errors: state.errors,
+      setProjectInfo: state.setProjectInfo,
+      setError: state.setError,
+      resetStore: state.resetStore,
+    }),
+  );
 
   const handleChange = field => e => {
     const sheetUriSchema = Joi.string().uri().allow("");
@@ -49,11 +41,13 @@ function SheetSection() {
           label="Google Spread Sheet Url"
           value={projectInfo.sheetUrl}
           handleChange={handleChange("sheetUrl")}
-          disabled={disabledFields.sheetUrl}
+          disabled={projectInfo[SHEET_URL]}
         />
         <Button
           type="button"
-          onClick={generateUrl}
+          onClick={() =>
+            setProjectInfo(SHEET_URL, "https://www.AUTO_GENERATE.com")
+          }
           disabled={Boolean(projectInfo[SHEET_URL])}
         >
           Generate
