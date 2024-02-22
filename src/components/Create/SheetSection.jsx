@@ -1,3 +1,4 @@
+import Joi from "joi";
 import FloatingInput from "../Form/FloatingInput";
 import FormError from "../Form/FormError";
 import useGenerateUrl from "../../hooks/useGenerateUrl";
@@ -6,12 +7,34 @@ import { SHEET_URL } from "../../utils/constants";
 import Button from "../Button/Button";
 
 function SheetSection() {
-  const { projectInfo, setProjectInfo, errors, setError, disabledFields } =
-    useProjectStore();
+  const {
+    projectInfo,
+    setProjectInfo,
+    errors,
+    setError,
+    setDisabled,
+    disabledFields,
+  } = useProjectStore(state => ({
+    projectInfo: state.projectInfo,
+    errors: state.errors,
+    disabledFields: state.disabledFields,
+    setProjectInfo: state.setProjectInfo,
+    setError: state.setError,
+    setDisabled: state.setDisabled,
+    resetStore: state.resetStore,
+  }));
   const { generateUrl } = useGenerateUrl();
+
   const handleChange = field => e => {
-    setError(SHEET_URL, "");
-    setProjectInfo(field, e.target.value);
+    const sheetUriSchema = Joi.string().uri().allow("");
+    const error = sheetUriSchema.validate(e.target.value);
+    if (error.error) {
+      setProjectInfo(field, e.target.value);
+      setError(SHEET_URL, error.error.message);
+    } else {
+      setProjectInfo(field, e.target.value);
+      setError(SHEET_URL, "");
+    }
   };
 
   return (
@@ -31,7 +54,7 @@ function SheetSection() {
         <Button
           type="button"
           onClick={generateUrl}
-          disabled={Boolean(projectInfo.sheetUrl) || Boolean(errors[SHEET_URL])}
+          disabled={Boolean(projectInfo[SHEET_URL])}
         >
           Generate
         </Button>

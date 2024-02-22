@@ -2,14 +2,14 @@ import { useState } from "react";
 import ProjectTable from "../../components/ProjectsTable";
 import Pagination from "../../components/Pagination";
 import useUserProjects from "../../hooks/useUserProjects";
-import Spinner from "../../components/shared/Spinner";
+import Loading from "../../components/shared/Loading";
 
 function ProjectsSection() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { isLoading, isError, error, data } = useUserProjects();
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (

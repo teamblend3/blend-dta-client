@@ -1,6 +1,6 @@
 import DataSection from "./DataSection";
 import SelectSection from "./SelectSection";
-import Spinner from "../../components/shared/Spinner";
+import Loading from "../../components/shared/Loading";
 import useProject from "../../hooks/useProject";
 
 function Collection() {
@@ -15,7 +15,7 @@ function Collection() {
     isError,
   } = useProject();
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error?.message || "Unknown error"}</div>;
   if (!collection && project?.collectionNames?.length) {
     setCollection(project.collectionNames[0]);

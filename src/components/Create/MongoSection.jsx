@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Joi from "joi";
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormError from "../Form/FormError";
@@ -32,9 +33,16 @@ function MongoSection() {
   const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
   const handleChange = field => e => {
-    setProjectInfo(field, e.target.value);
-    setError(DB_URL, "");
-    // error validate
+    const dbUrlSchema =
+      field === DB_URL ? Joi.string().domain().allow("") : Joi.string();
+    const error = dbUrlSchema.validate(e.target.value);
+    if (error.error) {
+      setProjectInfo(field, e.target.value);
+      setError(DB_URL, error.error.message);
+    } else {
+      setProjectInfo(field, e.target.value);
+      setError(DB_URL, "");
+    }
   };
 
   return (
@@ -52,7 +60,7 @@ function MongoSection() {
             name="dbUrl"
             label="Database Url"
             value={dbUrl}
-            handleChange={handleChange("dbUrl")}
+            handleChange={handleChange(DB_URL)}
             disabled={disabledFields.dbUrl}
           />
           <FloatingInput
@@ -82,7 +90,7 @@ function MongoSection() {
         <Button
           type="submit"
           onClick={handleDatabaseSubmit}
-          disabled={Boolean(errors.dbUrl)}
+          disabled={!dbUrl || Boolean(errors.dbUrl)}
         >
           Submit
         </Button>

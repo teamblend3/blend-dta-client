@@ -1,15 +1,7 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
-
-import {
-  USER_PROJECT_CACHE_TIME,
-  USER_PROJECT_STALE_TIME,
-} from "../utils/constants";
+import { useQuery } from "@tanstack/react-query";
 
 const useUserProjects = () => {
-  const queryClient = useQueryClient();
-
   const fetchProjects = async () => {
     try {
       const { data } = await axios.get(`/api/users/projects`, {
@@ -26,30 +18,11 @@ const useUserProjects = () => {
     }
   };
 
-  const { isLoading, isError, error, data, refetch } = useQuery({
+  const { isLoading, isError, error, data } = useQuery({
     queryKey: ["user-projects"],
     queryFn: () => fetchProjects(),
-    staleTime: USER_PROJECT_STALE_TIME,
-    cacheTime: USER_PROJECT_CACHE_TIME,
-    enabled: !queryClient.getQueryData(["user-projects"]),
+    refetchOnMount: true,
   });
-
-  useEffect(() => {
-    const handleProjectUpdate = async () => {
-      try {
-        const response = await axios.post("/api/users/projects");
-
-        if (response.data.success) {
-          await refetch();
-        }
-      } catch (err) {
-        console.err("Project Update failed:", err);
-      }
-    };
-
-    refetch();
-    handleProjectUpdate();
-  }, [refetch]);
 
   return {
     isLoading,

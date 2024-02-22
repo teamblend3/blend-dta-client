@@ -1,8 +1,7 @@
 function Spinner() {
   return (
-    <div role="status">
+    <div>
       <svg
-        aria-hidden="true"
         className="inline w-8 h-8 text-text-200 animate-spin fill-primary-500"
         viewBox="0 0 100 101"
         fill="none"
