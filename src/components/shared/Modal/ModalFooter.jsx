@@ -33,12 +33,16 @@ function ModalFooter({ onCloseModal }) {
       )}
 
       {allStepsDone && (
-        <Link to={useProjectStore.getState().projectInfo.sheetUrl}>
+        <a
+          href={useProjectStore.getState().projectInfo.sheetUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
           <Button type="button" style={GO_TO_SHEET_BUTTON_STYLE}>
             Check your Sheet
             <SiGooglesheets />
           </Button>
-        </Link>
+        </a>
       )}
     </div>
   );
