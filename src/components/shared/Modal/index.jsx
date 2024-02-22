@@ -16,16 +16,15 @@ function Modal() {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { projectInfo, errors, setError, setDisabled } = useProjectStore(
-    state => ({
+  const { projectInfo, setProjectInfo, setError, setDisabled } =
+    useProjectStore(state => ({
       projectInfo: state.projectInfo,
       errors: state.errors,
       disabledFields: state.disabledFields,
       setProjectInfo: state.setProjectInfo,
       setError: state.setError,
       setDisabled: state.setDisabled,
-    }),
-  );
+    }));
 
   const { mutate } = useMutation({
     mutationFn: async data => {
@@ -35,6 +34,7 @@ function Modal() {
       return response.data;
     },
     onSuccess: data => {
+      setProjectInfo(SHEET_URL, data.project.sheetUrl);
       setErrorMessage("");
       setShow(true);
     },

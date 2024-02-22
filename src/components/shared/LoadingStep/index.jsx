@@ -5,10 +5,10 @@ import useTaskStatus from "../../../hooks/useTaskStatus";
 
 function LoadingStep({ show }) {
   const {
-    projectInfo: { sheetUrl },
+    projectInfo: { dbUrl, dbTableName },
   } = useProjectStore();
 
-  const stepStatus = useTaskStatus(show, sheetUrl);
+  const stepStatus = useTaskStatus(show, dbUrl, dbTableName);
 
   return (
     <ol className="w-full flex">
