@@ -1,10 +1,20 @@
 import PropTypes from "prop-types";
+import { useLocation, useNavigate } from "react-router-dom";
 import DropdownItem from "./DropdownItem";
 import useLogout from "../../hooks/useLogout";
 import { DROPDOWN_BOX_STYLE } from "../../utils/styleConstants";
 
 function DropdownBox({ userInfo, onMouseEnter, onMouseLeave }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const logout = useLogout();
+
+  const handleLink = link => {
+    if (link === pathname) {
+      return;
+    }
+    navigate(link);
+  };
 
   return (
     <div
@@ -21,9 +31,21 @@ function DropdownBox({ userInfo, onMouseEnter, onMouseLeave }) {
         </span>
       </div>
       <ul className="list-none py-2">
-        <DropdownItem to="/profile" label="User Profile" />
-        <DropdownItem to="/projects/new" label="Create Project" />
-        <DropdownItem to="/projects" label="Project List" />
+        <DropdownItem
+          label="User Profile"
+          isCurrent={pathname === "/profile"}
+          onClick={() => handleLink("/profile")}
+        />
+        <DropdownItem
+          label="Create Project"
+          isCurrent={pathname === "/projects/new"}
+          onClick={() => handleLink("/projects/new")}
+        />
+        <DropdownItem
+          label="Project List"
+          isCurrent={pathname === "/projects"}
+          onClick={() => handleLink("/projects")}
+        />
         <DropdownItem label="Logout" onClick={logout} />
       </ul>
     </div>
