@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-
 import { RiFileExcel2Line } from "react-icons/ri";
 
 function Schema({ schemas }) {

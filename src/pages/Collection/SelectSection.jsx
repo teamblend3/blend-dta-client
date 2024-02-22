@@ -21,9 +21,13 @@ function SelectSection({ list, collection, setCollection }) {
   );
 }
 
+SelectSection.defaultProps = {
+  collection: "",
+};
+
 SelectSection.propTypes = {
   list: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  collection: PropTypes.string.isRequired,
+  collection: PropTypes.string,
   setCollection: PropTypes.func.isRequired,
 };
 
