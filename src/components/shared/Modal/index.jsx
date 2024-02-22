@@ -10,20 +10,22 @@ import LoadingStep from "../LoadingStep";
 import validateProjectInfo from "../../../utils/validates";
 import Button from "../../Button/Button";
 import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
-import { DUPLICATE_MESSAGE } from "../../../utils/constants";
+import { DUPLICATE_MESSAGE, SHEET_URL } from "../../../utils/constants";
 
 function Modal() {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { projectInfo, errors, setError } = useProjectStore(state => ({
-    projectInfo: state.projectInfo,
-    errors: state.errors,
-    disabledFields: state.disabledFields,
-    setProjectInfo: state.setProjectInfo,
-    setError: state.setError,
-    setDisabled: state.setDisabled,
-  }));
+  const { projectInfo, errors, setError, setDisabled } = useProjectStore(
+    state => ({
+      projectInfo: state.projectInfo,
+      errors: state.errors,
+      disabledFields: state.disabledFields,
+      setProjectInfo: state.setProjectInfo,
+      setError: state.setError,
+      setDisabled: state.setDisabled,
+    }),
+  );
 
   const { mutate } = useMutation({
     mutationFn: async data => {
@@ -54,6 +56,7 @@ function Modal() {
     }
     mutate(projectInfo);
     setShow(true);
+    setDisabled(SHEET_URL, true);
   };
 
   const handleDisAppearModal = () => {
