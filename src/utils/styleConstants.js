@@ -13,6 +13,8 @@ export const DEFAULT_BUTTON_STYLE = `${BASE_BUTTON_STYLE} ${BG_PRIMARY} text-tex
 
 export const CLOSE_MODAL_BUTTON_STYLE = `${BASE_BUTTON_STYLE} text-secondary-600 ms-3 bg-secondary-200 hover:bg-secondary-400 hover:text-secondary-700 focus:ring-secondary-600 border border-secondary-400 focus:z-10 rounded-lg`;
 
+export const GO_TO_SHEET_BUTTON_STYLE = `${BASE_BUTTON_STYLE} text-secondary-600 ms-3 bg-secondary-200 hover:bg-secondary-400 hover:text-secondary-700 focus:ring-secondary-600 border border-secondary-400 focus:z-10 rounded-lg`;
+
 export const CLOSE_MODAL_HEADER_BUTTON_STYLE =
   "text-text-400 bg-transparent hover:bg-secondary-200 hover:text-text-900 rounded-lg text-md w-8 h-8 ms-auto inline-flex justify-center items-center";
 
