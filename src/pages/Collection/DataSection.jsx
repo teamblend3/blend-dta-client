@@ -47,7 +47,7 @@ function DataSection({ schema, collection, dataPreview }) {
     .join("\n");
 
   return (
-    <div className="flex h-[30rem] justify-center items-start mt-10 space-x-5">
+    <div className="flex h-[30rem] justify-center items-start mt-5 space-x-5">
       <Schema schemas={result} />
       <div className="w-full h-full flex flex-col space-y-2">
         <h2 className="text-text-800 font-bold">Data Preview</h2>

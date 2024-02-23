@@ -35,7 +35,6 @@ function Modal() {
     onSuccess: data => {
       setProjectInfo(SHEET_URL, data.project.sheetUrl);
       setErrorMessage("");
-      setShow(true);
     },
     onError: err => {
       if (err.response.data.message === DUPLICATE_MESSAGE) {
@@ -48,6 +47,7 @@ function Modal() {
 
   const handleSynchronize = e => {
     e.preventDefault();
+    setShow(true);
     const isValid = validateProjectInfo(projectInfo, setError);
 
     if (!isValid) {
