@@ -7,4 +7,5 @@ export const CONNECTED_DB_DONE = "CONNECTED_DB_DONE";
 export const FETCH_DATA_DONE = "FETCH_DATA_DONE";
 export const DATA_FORMATTING_DONE = "DATA_FORMATTING_DONE";
 export const TRANSFER_DATA_DONE = "TRANSFER_DATA_DONE";
-export const DUPLICATE_MESSAGE = "Selected Table already exists.";
+export const DUPLICATE_MESSAGE =
+  "You already have selected Table already exists.";

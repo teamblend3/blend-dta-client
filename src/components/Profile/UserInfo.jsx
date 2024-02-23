@@ -13,39 +13,41 @@ import { USER_PROFILE_SAVE_BUTTON_STYLE } from "../../utils/styleConstants";
 
 function UserInfo() {
   const { userInfo } = useAuthStore();
-  const [email, setEmail] = useState(userInfo.email);
-  const [userName, setUserName] = useState(userInfo.userName);
+  const [form, setForm] = useState({
+    email: userInfo.email,
+    userName: userInfo.userName,
+  });
   const [selectedFile, setSelectedFile] = useState(null);
   const { loading, mutate } = useUpdateProfile();
 
-  const emailSchema = Joi.string().email({ tlds: { allow: false } });
-  const userNameSchema = Joi.string().min(3);
+  const schema = Joi.object({
+    email: Joi.string()
+      .email({ tlds: { allow: false } })
+      .required(),
+    userName: Joi.string().min(3).required(),
+  });
 
-  const emailError = useValidation(email, emailSchema);
-  const userNameError = useValidation(userName, userNameSchema);
+  const { error: formErrors, validate } = useValidation(form, schema);
+
+  const handleChange = field => e => {
+    setForm(prev => ({ ...prev, [field]: e.target.value }));
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
+    const errors = validate();
+    if (!errors) {
+      const formData = new FormData();
+      formData.append("email", form.email);
+      formData.append("userName", form.userName);
 
-    if (emailError || userNameError) {
-      return;
+      if (selectedFile) {
+        formData.append("avatarUrl", selectedFile);
+        formData.append("fileName", selectedFile.name);
+      }
+
+      mutate(formData);
     }
-
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("userName", userName);
-
-    if (selectedFile) {
-      formData.append("avatarUrl", selectedFile);
-      formData.append("fileName", selectedFile.name);
-    }
-
-    mutate(formData);
-  };
-
-  const handleChange = setter => e => {
-    setter(e.target.value);
   };
 
   return (
@@ -60,25 +62,27 @@ function UserInfo() {
             type="text"
             name="email"
             label="User email"
-            value={email}
-            handleChange={handleChange(setEmail)}
+            value={form.email}
+            handleChange={handleChange("email")}
           />
-          {emailError && <FormError errorMessage={emailError} />}
+          {formErrors?.email && <FormError errorMessage={formErrors.email} />}
           <FloatingInput
             type="text"
             name="username"
             label="User name"
-            value={userName}
-            handleChange={handleChange(setUserName)}
+            value={form.userName}
+            handleChange={handleChange("userName")}
           />
-          {userNameError && <FormError errorMessage={userNameError} />}
+          {formErrors?.userName && (
+            <FormError errorMessage={formErrors.userName} />
+          )}
         </div>
         <Button
           type="submit"
           style={USER_PROFILE_SAVE_BUTTON_STYLE}
-          disabled={Boolean(emailError || userNameError)}
+          disabled={loading || !!formErrors}
         >
-          {loading ? <SmallSpinner /> : "save"}
+          {loading ? <SmallSpinner /> : "Save"}
         </Button>
       </form>
     </div>
