@@ -1,4 +1,3 @@
-import Joi from "joi";
 import { useEffect } from "react";
 
 import FloatingInput from "../Form/FloatingInput";
@@ -8,10 +7,11 @@ import useValidateDb from "../../hooks/useValidateDb";
 import useProjectStore from "../../stores/useProjectStore";
 import Button from "../Button/Button";
 import { DB_URL } from "../../utils/constants";
+import { validateField } from "../../utils/validates";
 
 function MongoSection() {
   const {
-    projectInfo: { dbUrl, dbId, dbPassword, dbTableName },
+    projectInfo,
     errors,
     setError,
     setProjectInfo,
@@ -23,7 +23,6 @@ function MongoSection() {
     disabledFields: state.disabledFields,
     setProjectInfo: state.setProjectInfo,
     setError: state.setError,
-    setDisabled: state.setDisabled,
     resetStore: state.resetStore,
   }));
 
@@ -34,17 +33,13 @@ function MongoSection() {
   const { dbTableList, handleDatabaseSubmit } = useValidateDb();
 
   const handleChange = field => e => {
-    const dbUrlSchema =
-      field === DB_URL ? Joi.string().domain().allow("") : Joi.string();
-    const error = dbUrlSchema.validate(e.target.value);
-    if (error.error) {
-      setProjectInfo(field, e.target.value);
-      setError(DB_URL, error.error.message);
-    } else {
-      setProjectInfo(field, e.target.value);
-      setError(DB_URL, "");
-    }
+    const { value } = e.target;
+    const errorMessage = validateField(field, value);
+    setProjectInfo(field, value);
+    setError(field, errorMessage);
   };
+
+  const isSubmitDisabled = !projectInfo.dbUrl || Boolean(errors[DB_URL]);
 
   return (
     <section className="p-2">
@@ -53,46 +48,40 @@ function MongoSection() {
       </h2>
       <form
         onSubmit={handleDatabaseSubmit}
-        className="sm:flex sm:items-baseline sm:space-x-4 space-y-2 sm:[&>*:first-child]:w-8/12 sm:[&>*:nth-child(2)]:w-2/12 sm:[&>*:last-child]:w-2/12 mt-4"
+        className="sm:flex sm:items-baseline sm:space-x-4 space-y-2 sm:[&>*:first-child]:w-4/12 sm:[&>*:nth-child(2)]:w-2/12 sm:[&>*:nth-child(3)]:w-2/12 sm:[&>*:nth-child(4)]:w-2/12  sm:[&>*:last-child]:w-2/12 mt-4"
       >
-        <div className="sm:flex w-full space-x-4 sm:[&>*:first-child]:w-8/12">
-          <FloatingInput
-            type="text"
-            name="dbUrl"
-            label="Database Url"
-            value={dbUrl}
-            handleChange={handleChange(DB_URL)}
-            disabled={disabledFields.dbUrl}
-          />
-          <FloatingInput
-            type="text"
-            name="dbId"
-            label="Database Id"
-            value={dbId}
-            handleChange={handleChange("dbId")}
-            disabled={disabledFields.dbId}
-          />
-          <FloatingInput
-            type="password"
-            name="dbPassword"
-            label="password"
-            value={dbPassword}
-            handleChange={handleChange("dbPassword")}
-            disabled={disabledFields.dbPassword}
-          />
-        </div>
+        <FloatingInput
+          type="text"
+          name="dbUrl"
+          label="Database Url"
+          value={projectInfo.dbUrl}
+          handleChange={handleChange("dbUrl")}
+          disabled={disabledFields.dbUrl}
+        />
+        <FloatingInput
+          type="text"
+          name="dbId"
+          label="Database Id"
+          value={projectInfo.dbId}
+          handleChange={handleChange("dbId")}
+          disabled={disabledFields.dbId}
+        />
+        <FloatingInput
+          type="password"
+          name="dbPassword"
+          label="Password"
+          value={projectInfo.dbPassword}
+          handleChange={handleChange("dbPassword")}
+          disabled={disabledFields.dbPassword}
+        />
         <FormSelect
           id="tableName"
           options={dbTableList}
-          value={dbTableName}
+          value={projectInfo.dbTableName}
           handleChange={handleChange("dbTableName")}
           disabled={!(dbTableList.length || disabledFields.dbTableName)}
         />
-        <Button
-          type="submit"
-          onClick={handleDatabaseSubmit}
-          disabled={!dbUrl || Boolean(errors.dbUrl)}
-        >
+        <Button type="submit" disabled={isSubmitDisabled}>
           Submit
         </Button>
       </form>

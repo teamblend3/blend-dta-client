@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-
 import { IoMdClose } from "react-icons/io";
+
 import Button from "../../Button/Button";
 import { CLOSE_MODAL_HEADER_BUTTON_STYLE } from "../../../utils/styleConstants";
 

@@ -7,7 +7,7 @@ import ModalFooter from "./ModalFooter";
 import ModalHeader from "./ModalHeader";
 import useProjectStore from "../../../stores/useProjectStore";
 import LoadingStep from "../LoadingStep";
-import validateProjectInfo from "../../../utils/validates";
+import { validateProjectInfo } from "../../../utils/validates";
 import Button from "../../Button/Button";
 import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
 import { DUPLICATE_MESSAGE, SHEET_URL } from "../../../utils/constants";
@@ -16,15 +16,14 @@ function Modal() {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { projectInfo, setProjectInfo, setError, setDisabled } =
-    useProjectStore(state => ({
-      projectInfo: state.projectInfo,
-      errors: state.errors,
-      disabledFields: state.disabledFields,
-      setProjectInfo: state.setProjectInfo,
-      setError: state.setError,
-      setDisabled: state.setDisabled,
-    }));
+  const { projectInfo, setProjectInfo, setError } = useProjectStore(state => ({
+    projectInfo: state.projectInfo,
+    errors: state.errors,
+    disabledFields: state.disabledFields,
+    setProjectInfo: state.setProjectInfo,
+    setError: state.setError,
+    setDisabled: state.setDisabled,
+  }));
 
   const { mutate } = useMutation({
     mutationFn: async data => {
@@ -39,7 +38,7 @@ function Modal() {
       setShow(true);
     },
     onError: err => {
-      if (err.response.data.error === DUPLICATE_MESSAGE) {
+      if (err.response.data.message === DUPLICATE_MESSAGE) {
         setErrorMessage(DUPLICATE_MESSAGE);
         setShow(false);
       }
@@ -55,8 +54,6 @@ function Modal() {
       return;
     }
     mutate(projectInfo);
-    setShow(true);
-    setDisabled(SHEET_URL, true);
   };
 
   const handleDisAppearModal = () => {
