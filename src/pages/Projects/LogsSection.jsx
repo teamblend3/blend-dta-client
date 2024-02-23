@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import TextArea from "../../components/Form/TextArea";
 import { LOGS_PREVIEWER_STYLE } from "../../utils/styleConstants";
 import useLogs from "../../hooks/useLogs";

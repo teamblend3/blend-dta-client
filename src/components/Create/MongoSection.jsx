@@ -1,12 +1,13 @@
-import { useEffect } from "react";
 import Joi from "joi";
+import { useEffect } from "react";
+
 import FloatingInput from "../Form/FloatingInput";
 import FormSelect from "../Form/FormSelect";
 import FormError from "../Form/FormError";
 import useValidateDb from "../../hooks/useValidateDb";
 import useProjectStore from "../../stores/useProjectStore";
-import { DB_URL } from "../../utils/constants";
 import Button from "../Button/Button";
+import { DB_URL } from "../../utils/constants";
 
 function MongoSection() {
   const {

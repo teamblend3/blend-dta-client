@@ -63,12 +63,15 @@ function DataSection({ schema, collection, dataPreview }) {
 
 DataSection.defaultProps = {
   dataPreview: [],
+  collection: "",
 };
 
 DataSection.propTypes = {
   schema: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  collection: PropTypes.string.isRequired,
-  dataPreview: PropTypes.arrayOf(PropTypes.shape({})),
+  collection: PropTypes.string,
+  dataPreview: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.number)),
+  ),
 };
 
 export default DataSection;

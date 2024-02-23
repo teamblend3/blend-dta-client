@@ -1,7 +1,6 @@
 import Joi from "joi";
 import FloatingInput from "../Form/FloatingInput";
 import FormError from "../Form/FormError";
-import useGenerateUrl from "../../hooks/useGenerateUrl";
 import useProjectStore from "../../stores/useProjectStore";
 import { SHEET_URL } from "../../utils/constants";
 import Button from "../Button/Button";
@@ -41,7 +40,7 @@ function SheetSection() {
           label="Google Spread Sheet Url"
           value={projectInfo.sheetUrl}
           handleChange={handleChange("sheetUrl")}
-          disabled={projectInfo[SHEET_URL]}
+          disabled={Boolean(projectInfo[SHEET_URL])}
         />
         <Button
           type="button"

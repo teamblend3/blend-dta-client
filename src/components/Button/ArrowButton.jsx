@@ -3,6 +3,7 @@ import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
+
 import Button from "./Button";
 import { getStyleArrowButton } from "../../utils/styleUtils";
 
