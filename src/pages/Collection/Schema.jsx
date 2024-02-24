@@ -1,10 +1,13 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { RiFileExcel2Line } from "react-icons/ri";
+import { useParams } from "react-router-dom";
 
-function Schema({ schemas }) {
+function Schema({ schemas, collection }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const { projectId } = useParams();
 
   const handleCheckboxChange = field => {
     if (selectedRows.includes(field)) {
@@ -25,14 +28,47 @@ function Schema({ schemas }) {
     setSelectAll(!selectAll);
   };
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!selectedRows.length) {
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `/api/projects/${projectId}/download`,
+        {
+          collection,
+          columns: selectedRows,
+        },
+        { responseType: "blob", withCredentials: true },
+      );
+      const downloadUrl = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", `${collection}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error("Failed to download file:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full h-full space-y-2">
       <div className="flex items-center">
         <h3 className="text-text-800 font-bold flex-grow">Data Schema</h3>
-        <RiFileExcel2Line
-          className="flex-shrink-0 text-primary-500"
-          size="25"
-        />
+        <button
+          type="button"
+          onClick={handleSubmit}
+          aria-label="Download Excel"
+        >
+          <RiFileExcel2Line
+            className="flex-shrink-0 text-primary-500"
+            size="25"
+          />
+        </button>
       </div>
       <table className="w-full h-full text-base text-center text-text-950 my-2 border border-collapse">
         <thead className="text-sm uppercase border border-collapse">
@@ -85,6 +121,7 @@ Schema.propTypes = {
       type: PropTypes.string,
     }),
   ).isRequired,
+  collection: PropTypes.string.isRequired,
 };
 
 export default Schema;
