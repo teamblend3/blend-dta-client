@@ -48,7 +48,7 @@ function DataSection({ schema, collection, dataPreview }) {
 
   return (
     <div className="flex h-[30rem] justify-center items-start mt-5 space-x-5">
-      <Schema schemas={result} />
+      <Schema schemas={result} collection={collection} />
       <div className="w-full h-full flex flex-col space-y-2">
         <h2 className="text-text-800 font-bold">Data Preview</h2>
         <TextArea data={lastData} style={DATA_PREVIEWER_STYLE} />
