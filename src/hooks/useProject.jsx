@@ -8,14 +8,17 @@ import {
   USER_PROJECT_STALE_TIME,
 } from "../utils/constants";
 
-const useProject = () => {
+const useProject = initialCollection => {
   const { projectId } = useParams();
-  const [collection, setCollection] = useState(null);
+  const [collection, setCollection] = useState(initialCollection || null);
 
   const { data, error, isLoading, isError } = useQuery({
-    queryKey: ["get-project", projectId],
+    queryKey: ["get-project", projectId, collection],
     queryFn: async () => {
-      const response = await axios.get(`/api/projects/${projectId}`);
+      const encodedCollection = encodeURIComponent(collection);
+      const response = await axios.get(
+        `/api/projects/${projectId}?collection=${encodedCollection}`,
+      );
       return response.data;
     },
     staleTime: USER_PROJECT_STALE_TIME,
