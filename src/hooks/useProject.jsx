@@ -13,7 +13,7 @@ const useProject = initialCollection => {
   const [collection, setCollection] = useState(initialCollection || null);
 
   const { data, error, isLoading, isError } = useQuery({
-    queryKey: ["get-project", projectId, collection],
+    queryKey: ["get-project", projectId],
     queryFn: async () => {
       const response = await axios.get(`/api/projects/${projectId}`);
       return response.data;
