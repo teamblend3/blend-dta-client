@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { TRANSFER_DATA_DONE } from "../utils/constants";
 
-const useTaskStatus = (show, dbUrl, dbTableName) => {
+const useTaskStatus = (show, statusId) => {
   const [stepStatus, setStepStatus] = useState([
     { name: "CONNECTED_DB_DONE", done: false },
     { name: "FETCH_DATA_DONE", done: false },
@@ -25,7 +25,7 @@ const useTaskStatus = (show, dbUrl, dbTableName) => {
 
   const fetchTaskStatus = async () => {
     const response = await axios.get(
-      `/api/projects/taskstatus?db=${dbUrl}&table=${dbTableName}`,
+      `/api/projects/taskstatus?id=${statusId}`,
       {
         withCredentials: true,
       },
@@ -39,7 +39,7 @@ const useTaskStatus = (show, dbUrl, dbTableName) => {
   const { data, status } = useQuery({
     queryKey: ["get-taskStatus"],
     queryFn: fetchTaskStatus,
-    enabled: Boolean(show && dbUrl && dbTableName),
+    enabled: Boolean(show),
     refetchInterval: result =>
       result.state.data?.status === TRANSFER_DATA_DONE ? false : 1000,
   });

@@ -1,15 +1,9 @@
 import PropTypes from "prop-types";
 import Step from "./Step";
-import useProjectStore from "../../../stores/useProjectStore";
 import useTaskStatus from "../../../hooks/useTaskStatus";
 
-function LoadingStep({ show }) {
-  const {
-    projectInfo: { dbUrl, dbTableName },
-  } = useProjectStore();
-
-  const stepStatus = useTaskStatus(show, dbUrl, dbTableName);
-
+function LoadingStep({ show, statusId }) {
+  const stepStatus = useTaskStatus(show, statusId.current);
   return (
     <ol className="w-full flex">
       {stepStatus.map(step => (
@@ -22,6 +16,9 @@ function LoadingStep({ show }) {
 }
 
 LoadingStep.propTypes = {
+  statusId: PropTypes.shape({
+    current: PropTypes.string.isRequired,
+  }).isRequired,
   show: PropTypes.bool.isRequired,
 };
 
