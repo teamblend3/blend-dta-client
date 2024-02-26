@@ -7,7 +7,8 @@ export const transformData = (schema, collection, dataPreview) => {
     return acc;
   }, {});
 
-  const result = schemaObj[collection]
+  const collectionData = schemaObj?.[collection];
+  const result = (collectionData || [])
     .sort((a, b) => a._id.localeCompare(b._id))
     .map(data => ({ field: data._id, type: data.types[0] }));
 

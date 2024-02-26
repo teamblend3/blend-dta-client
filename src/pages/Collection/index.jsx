@@ -1,3 +1,5 @@
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+
 import DataSection from "./DataSection";
 import SelectSection from "./SelectSection";
 import Loading from "../../components/shared/Loading";
@@ -5,6 +7,12 @@ import useProject from "../../hooks/useProject";
 import Container from "../../components/Layout/Container";
 
 function Collection() {
+  const { projectId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  const selectedCollection = params.get("collection");
+
   const {
     collection,
     setCollection,
@@ -14,7 +22,21 @@ function Collection() {
     error,
     isLoading,
     isError,
-  } = useProject();
+  } = useProject(selectedCollection);
+
+  const isInitialLoading =
+    !selectedCollection && project?.collectionNames?.length && !collection;
+
+  if (isInitialLoading) {
+    setCollection(project.collectionNames[0]);
+  }
+
+  const handleCollectionChange = newCollection => {
+    setCollection(newCollection);
+
+    params.set("collection", newCollection);
+    navigate(`/projects/${projectId}?${params.toString()}`);
+  };
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error?.message || "Unknown error"}</div>;
@@ -30,7 +52,7 @@ function Collection() {
       <SelectSection
         list={project.collectionNames}
         collection={collection}
-        setCollection={setCollection}
+        setCollection={handleCollectionChange}
       />
       <DataSection
         schema={schema}

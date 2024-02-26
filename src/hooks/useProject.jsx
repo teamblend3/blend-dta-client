@@ -8,9 +8,9 @@ import {
   USER_PROJECT_STALE_TIME,
 } from "../utils/constants";
 
-const useProject = () => {
+const useProject = initialCollection => {
   const { projectId } = useParams();
-  const [collection, setCollection] = useState(null);
+  const [collection, setCollection] = useState(initialCollection || null);
 
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["get-project", projectId],
