@@ -18,7 +18,6 @@ function ProjectsSection() {
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
     params.set("page", newPage);
-
     navigate(`${window.location.pathname}?${params.toString()}`);
   };
 
