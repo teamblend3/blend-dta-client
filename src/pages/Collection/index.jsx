@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import DataSection from "./DataSection";
 import SelectSection from "./SelectSection";
@@ -7,7 +7,9 @@ import useProject from "../../hooks/useProject";
 import Container from "../../components/Layout/Container";
 
 function Collection() {
+  const { projectId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const selectedCollection = params.get("collection");
 
@@ -32,9 +34,8 @@ function Collection() {
   const handleCollectionChange = newCollection => {
     setCollection(newCollection);
 
-    const newParams = new URLSearchParams({ collection: newCollection });
-
-    window.history.replaceState(null, "", `${location.pathname}?${newParams}`);
+    params.set("collection", newCollection);
+    navigate(`/projects/${projectId}?${params.toString()}`);
   };
 
   if (isLoading) return <Loading />;
