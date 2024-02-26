@@ -1,9 +1,10 @@
 import Joi from "joi";
+import { DB_URL, SHEET_URL } from "./constants";
 
 export const validateField = (field, value) => {
   let schema;
   switch (field) {
-    case "dbUrl":
+    case DB_URL:
       schema = Joi.string().domain().allow("");
       break;
     default:
@@ -14,13 +15,16 @@ export const validateField = (field, value) => {
   return error ? error.message : null;
 };
 
-export const validateProjectInfo = (projectInfo, setError) => {
-  const fieldsToValidate = ["sheetUrl", "dbUrl"];
+export const validateProjectInfo = (projectInfo, setError, isMock) => {
+  const fieldsToValidate = [DB_URL, SHEET_URL];
+  if (isMock) {
+    fieldsToValidate.pop();
+  }
   let isValid = true;
 
   fieldsToValidate.forEach(field => {
     const schema =
-      field === "dbUrl" ? Joi.string().domain() : Joi.string().uri();
+      field === DB_URL ? Joi.string().domain() : Joi.string().uri();
     const { error } = schema.validate(projectInfo[field]);
     if (error?.message) {
       setError(field, error.message);
