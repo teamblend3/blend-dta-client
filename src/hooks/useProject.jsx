@@ -15,10 +15,7 @@ const useProject = initialCollection => {
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["get-project", projectId, collection],
     queryFn: async () => {
-      const encodedCollection = encodeURIComponent(collection);
-      const response = await axios.get(
-        `/api/projects/${projectId}?collection=${encodedCollection}`,
-      );
+      const response = await axios.get(`/api/projects/${projectId}`);
       return response.data;
     },
     staleTime: USER_PROJECT_STALE_TIME,
