@@ -1,10 +1,17 @@
 import PropTypes from "prop-types";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt, FaDownload } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
 import { formatDate } from "../../utils/dataUtil";
+import useAuthStore from "../../stores/useAuthStore";
+import LoadingLine from "../shared/LoadingLine";
 
 function TableRow({ currentPage, project, index, isProjectsPage }) {
+  const {
+    userInfo: { userId },
+  } = useAuthStore();
   const { _id, title, dbUrl, sheetUrl, collectionNames, createdAt } = project;
 
   const itemNumber = _id
@@ -19,6 +26,57 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
     ? "py-2 font-medium whitespace-nowrap border-[1px] border-black dark:border-white"
     : "px-6 py-2 text-sm font-medium text-primary-600 whitespace-nowrap";
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["get-mock-download"],
+    mutationFn: async () => {
+      const res = await axios.get(`/api/projects/${_id}/download`);
+      return res.data;
+    },
+    onSuccess: data => {
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "sample.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    },
+    onError: error => {
+      console.error("Download error:", error);
+    },
+  });
+
+  const handleDownLoad = async () => {
+    mutate();
+  };
+
+  const renderDownloadButtonOrLink = () => {
+    if (sheetUrl && userId === import.meta.env.VITE_MOCK_AUTH_ID) {
+      if (isPending) {
+        return <LoadingLine />;
+      }
+      return (
+        <button onClick={handleDownLoad} aria-label="download-file">
+          <FaDownload />
+        </button>
+      );
+    }
+    if (sheetUrl) {
+      return (
+        <a
+          href={sheetUrl}
+          target="_blank"
+          className="inline-block"
+          rel="noreferrer"
+        >
+          <FaExternalLinkAlt />
+          <span className="sr-only">Open external link</span>
+        </a>
+      );
+    }
+    return null;
+  };
+
   return (
     <tr className={rowClass} key={_id || index}>
       <th className={cellClass}>{itemNumber}</th>
@@ -28,17 +86,7 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
       {isProjectsPage && (
         <>
           <td className={cellClass}>{dbUrl}</td>
-          <td className={cellClass}>
-            <a
-              href={sheetUrl}
-              target="_blank"
-              className="inline-block"
-              rel="noreferrer"
-            >
-              {sheetUrl && <FaExternalLinkAlt />}
-              <span className="sr-only">Open external link</span>
-            </a>
-          </td>
+          <td className={cellClass}>{renderDownloadButtonOrLink()}</td>
         </>
       )}
       <td className={cellClass}>{collectionNames?.length}</td>
