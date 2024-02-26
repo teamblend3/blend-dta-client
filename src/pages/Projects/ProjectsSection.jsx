@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import ProjectTable from "../../components/ProjectsTable";
 import Pagination from "../../components/Pagination";
@@ -6,9 +7,20 @@ import useUserProjects from "../../hooks/useUserProjects";
 import Loading from "../../components/shared/Loading";
 
 function ProjectsSection() {
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const { search } = useLocation();
+  const navigate = useNavigate();
   const { isLoading, isError, error, data } = useUserProjects();
+  const params = new URLSearchParams(search);
+  const page = params.get("page");
+
+  const [currentPage, setCurrentPage] = useState(page ? parseInt(page, 10) : 1);
+
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+    params.set("page", newPage);
+
+    navigate(`${window.location.pathname}?${params.toString()}`);
+  };
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error.message}</div>;
@@ -24,7 +36,7 @@ function ProjectsSection() {
           <Pagination
             totalLength={data.projectsLength}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={handlePageChange}
           />
         </>
       ) : (
