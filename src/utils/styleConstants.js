@@ -24,6 +24,8 @@ export const USER_PROFILE_SAVE_BUTTON_STYLE = `${BASE_BUTTON_STYLE} text-base fo
 
 export const GOOGLE_LOGIN_BUTTON_STYLE = `${BASE_BUTTON_STYLE} ${BG_PRIMARY} focus:ring-primary font-bold text-xl w-full sm:w-auto ${TRANSFORM_STYLE}`;
 
+export const MOCK_LOGIN_BUTTON_STYLE = `${BASE_BUTTON_STYLE} bg-accent-400 mb-4 hover:bg-accent-300 focus:ring-primary font-bold text-xl w-full sm:w-auto ${TRANSFORM_STYLE}`;
+
 export const DATA_PREVIEWER_STYLE =
   "w-full h-full bg-background-50 border-2 border-black p-1 overflow-y-scroll  tracking-widest resize-none text-sm text-gray dark:border-white focus:outline-none focus:border-accent-300 focus:dark:border-accent-700";
 

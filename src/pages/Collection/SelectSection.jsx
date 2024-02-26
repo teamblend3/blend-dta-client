@@ -10,7 +10,7 @@ function SelectSection({ list, collection, setCollection }) {
   const options = list.map(collectionName => ({ name: collectionName }));
 
   return (
-    <section className="flex items-center sm:space-x-10 w-full mt-4">
+    <section className="flex items-center sm:space-x-10 w-full mt-1">
       <FormSelect
         id="collectionName"
         options={options}
