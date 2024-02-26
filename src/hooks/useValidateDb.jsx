@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../stores/useAuthStore";
 import useProjectStore from "../stores/useProjectStore";
+import { DB_ID, DB_PASSWORD, DB_TABLENAME, DB_URL } from "../utils/constants";
 
 const useValidateDb = () => {
   const [dbTableList, setDbTableList] = useState([]);
@@ -13,7 +14,10 @@ const useValidateDb = () => {
 
   const { projectInfo, setProjectInfo, setError, setDisabled } =
     useProjectStore();
-  const { setUser } = useAuthStore();
+  const {
+    userInfo: { userId },
+    setUser,
+  } = useAuthStore();
 
   const validateDatabase = async data => {
     try {
@@ -39,14 +43,15 @@ const useValidateDb = () => {
     onSuccess: data => {
       const { databaseList } = data;
       setDbTableList(databaseList);
-      setProjectInfo("dbTableName", databaseList[0].name);
-      ["dbUrl", "dbId", "dbPassword"].forEach(field =>
-        setDisabled(field, true),
-      );
-      setError("dbUrl", "");
+      setProjectInfo(DB_TABLENAME, databaseList[0].name);
+      [DB_URL, DB_ID, DB_PASSWORD].forEach(field => setDisabled(field, true));
+      if (userId === import.meta.env.VITE_MOCK_AUTH_ID) {
+        setDisabled(DB_TABLENAME, true);
+      }
+      setError(DB_URL, "");
     },
     onError: error => {
-      setError("dbUrl", error.message);
+      setError(DB_URL, error.message);
       setDbTableList([]);
     },
   });
