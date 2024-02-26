@@ -1,6 +1,6 @@
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 
@@ -8,6 +8,11 @@ function Schema({ schemas, collection }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const { projectId } = useParams();
+
+  useEffect(() => {
+    setSelectedRows([]);
+    setSelectAll(false);
+  }, [collection]);
 
   const handleCheckboxChange = field => {
     if (selectedRows.includes(field)) {
@@ -70,7 +75,7 @@ function Schema({ schemas, collection }) {
           />
         </button>
       </div>
-      <table className="w-full h-full text-base text-center text-text-950 my-2 border border-collapse">
+      <table className="w-full h-full text-sm text-center text-text-950 my-2 border border-collapse">
         <thead className="text-sm uppercase border border-collapse">
           <tr>
             <th className="flex py-2 justify-center items-center border-black dark:border-white">
@@ -93,7 +98,7 @@ function Schema({ schemas, collection }) {
         <tbody className="border border-collapse">
           {schemas?.map(({ field, type }) => (
             <tr key={field} className="border">
-              <td className="flex h-full py-2 justify-center items-center">
+              <td className="flex h-full p-0 justify-center items-center">
                 <input
                   type="checkbox"
                   checked={selectedRows.includes(field)}
