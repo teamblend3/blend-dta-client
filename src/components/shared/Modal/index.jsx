@@ -11,7 +11,12 @@ import LoadingStep from "../LoadingStep";
 import { validateProjectInfo } from "../../../utils/validates";
 import Button from "../../Button/Button";
 import { SYNCHRONIZE_BUTTON_STYLE } from "../../../utils/styleConstants";
-import { DUPLICATE_MESSAGE, SHEET_URL } from "../../../utils/constants";
+import {
+  DATABASE_INFO_INCORRECT_MESSAGE,
+  DB_TABLENAME,
+  DUPLICATE_MESSAGE,
+  SHEET_URL,
+} from "../../../utils/constants";
 import useAuthStore from "../../../stores/useAuthStore";
 
 function Modal() {
@@ -40,10 +45,14 @@ function Modal() {
         data,
         {
           responseType:
-            userId === import.meta.env.VITE_MOCK_AUTH_ID ? "blob" : "json",
+            userId === import.meta.env.VITE_MOCK_AUTH_ID &&
+            projectInfo[DB_TABLENAME]
+              ? "blob"
+              : "json",
           withCredentials: true,
         },
       );
+
       return response.data;
     },
     onSuccess: data => {
@@ -59,9 +68,9 @@ function Modal() {
       }
     },
     onError: err => {
+      setShow(false);
       if (err.response.data.message === DUPLICATE_MESSAGE) {
         setErrorMessage(DUPLICATE_MESSAGE);
-        setShow(false);
       }
     },
     onSettled: () => {},
@@ -69,13 +78,21 @@ function Modal() {
 
   const handleSynchronize = e => {
     e.preventDefault();
-    setShow(true);
+
     const isMock = userId === import.meta.env.VITE_MOCK_AUTH_ID;
     const isValid = validateProjectInfo(projectInfo, setError, isMock);
 
     if (!isValid) {
       return;
     }
+
+    if (isMock && !projectInfo[DB_TABLENAME]) {
+      setError(DB_TABLENAME, DATABASE_INFO_INCORRECT_MESSAGE);
+      return;
+    }
+
+    setShow(true);
+
     mutate({ ...projectInfo, statusId: statusId.current });
   };
 

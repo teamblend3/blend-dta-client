@@ -44,9 +44,10 @@ function SheetSection() {
         />
         <Button
           type="button"
-          onClick={() =>
-            setProjectInfo(SHEET_URL, "https://www.AUTO_GENERATE.com")
-          }
+          onClick={() => {
+            setProjectInfo(SHEET_URL, "https://www.AUTO_GENERATE.com");
+            setError(SHEET_URL, "");
+          }}
           disabled={Boolean(projectInfo[SHEET_URL])}
         >
           Generate

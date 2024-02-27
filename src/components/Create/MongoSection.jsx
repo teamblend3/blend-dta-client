@@ -41,10 +41,10 @@ function MongoSection() {
   useEffect(() => {
     resetStore();
     if (userId === import.meta.env.VITE_MOCK_AUTH_ID) {
-      setProjectInfo(DB_URL, "cluster0.kbk2xmu.mongodb.net");
-      setProjectInfo(DB_ID, "teamBlend");
-      setProjectInfo(DB_PASSWORD, "HNhA9YPBAiRH68Y6");
-      setProjectInfo(SHEET_URL, "MOCK AUTH CAN'T GENERATE GOOGLE SHEET");
+      setProjectInfo(DB_URL, import.meta.env.VITE_MOCK_DB_URL);
+      setProjectInfo(DB_ID, import.meta.env.VITE_MOCK_DB_ID);
+      setProjectInfo(DB_PASSWORD, import.meta.env.VITE_MOCK_DB_PASSWORD);
+      setProjectInfo(SHEET_URL, import.meta.env.VITE_MOCK_SHEET_URL);
       setDisabled(DB_URL, true);
       setDisabled(DB_ID, true);
       setDisabled(DB_PASSWORD, true);
@@ -107,6 +107,9 @@ function MongoSection() {
         </Button>
       </form>
       {errors[DB_URL] && <FormError errorMessage={errors[DB_URL]} />}
+      {errors[DB_TABLENAME] && (
+        <FormError errorMessage={errors[DB_TABLENAME]} />
+      )}
     </section>
   );
 }

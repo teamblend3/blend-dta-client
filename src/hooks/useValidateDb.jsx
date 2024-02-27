@@ -49,6 +49,7 @@ const useValidateDb = () => {
         setDisabled(DB_TABLENAME, true);
       }
       setError(DB_URL, "");
+      setError(DB_TABLENAME, "");
     },
     onError: error => {
       setError(DB_URL, error.message);
