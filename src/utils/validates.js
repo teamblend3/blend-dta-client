@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { DB_URL, SHEET_URL } from "./constants";
+import { DB_TABLENAME, DB_URL, SHEET_URL } from "./constants";
 
 export const validateField = (field, value) => {
   let schema;
