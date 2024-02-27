@@ -9,6 +9,7 @@ import CollectionPage from "./pages/Collection";
 import useAuthStore from "./stores/useAuthStore";
 import useAuthStatus from "./hooks/useAuthStatus";
 import Loading from "./components/shared/Loading";
+import NotFound from "./pages/NotFound";
 
 function PrivateRoute() {
   const { isLoading } = useAuthStatus();
@@ -51,6 +52,7 @@ const routes = [
           { path: "/projects/:projectId", element: <CollectionPage /> },
         ],
       },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ];

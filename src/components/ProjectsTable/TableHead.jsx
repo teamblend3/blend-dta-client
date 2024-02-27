@@ -21,7 +21,7 @@ function TableHead({ isProjectsPage }) {
         </th>
         {isProjectsPage && (
           <>
-            <th className={cls(thClass, "w-4/12")}>db url</th>
+            <th className={cls(thClass, "w-3/12")}>db url</th>
             <th className={cls(thClass, "w-1/12")}>sheet</th>
           </>
         )}
@@ -31,6 +31,7 @@ function TableHead({ isProjectsPage }) {
         <th className={cls(thClass, isProjectsPage ? "w-2/12" : "w-3/12")}>
           Created At
         </th>
+        {isProjectsPage && <th className={cls(thClass, "w-1/12")}>delete</th>}
       </tr>
     </thead>
   );

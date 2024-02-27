@@ -12,3 +12,5 @@ export const DATA_FORMATTING_DONE = "DATA_FORMATTING_DONE";
 export const TRANSFER_DATA_DONE = "TRANSFER_DATA_DONE";
 export const DUPLICATE_MESSAGE =
   "You already have selected Table already exists.";
+export const DATABASE_INFO_INCORRECT_MESSAGE =
+  "The database information entered is incorrect.";

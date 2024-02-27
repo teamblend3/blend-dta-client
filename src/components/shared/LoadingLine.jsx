@@ -1,9 +1,9 @@
-import React from "react";
+import PropTypes from "prop-types";
 
-function LoadingLine() {
+function LoadingLine({ px }) {
   return (
     <svg
-      className="h-5 w-5 animate-spin stroke-gray mx-auto"
+      className={`h-[${px}px] w-[${px}px] animate-spin stroke-gray mx-auto`}
       viewBox="0 0 256 256"
     >
       <line
@@ -81,5 +81,9 @@ function LoadingLine() {
     </svg>
   );
 }
+
+LoadingLine.propTypes = {
+  px: PropTypes.number.isRequired,
+};
 
 export default LoadingLine;
