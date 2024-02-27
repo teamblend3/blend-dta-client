@@ -1,8 +1,10 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { FaExternalLinkAlt, FaDownload } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+
 import { PROJECTS_PER_PAGE } from "../../utils/constants";
 import { formatDate } from "../../utils/dataUtil";
 import useAuthStore from "../../stores/useAuthStore";
@@ -29,7 +31,11 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
   const { mutate, isPending } = useMutation({
     mutationKey: ["get-mock-download"],
     mutationFn: async () => {
-      const res = await axios.get(`/api/projects/${_id}/download`);
+      const res = await axios.get(`/api/projects/${_id}/download`, {
+        responseType:
+          userId === import.meta.env.VITE_MOCK_AUTH_ID ? "blob" : "json",
+        withCredentials: true,
+      });
       return res.data;
     },
     onSuccess: data => {
@@ -50,10 +56,18 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
     mutate();
   };
 
+  const handleDelete = async () => {
+    const res = await axios.delete(`/api/projects/${_id}`);
+
+    if (res.data.success) {
+      window.location.reload();
+    }
+  };
+
   const renderDownloadButtonOrLink = () => {
     if (sheetUrl && userId === import.meta.env.VITE_MOCK_AUTH_ID) {
       if (isPending) {
-        return <LoadingLine />;
+        return <LoadingLine px={20} />;
       }
       return (
         <button onClick={handleDownLoad} aria-label="download-file">
@@ -91,6 +105,13 @@ function TableRow({ currentPage, project, index, isProjectsPage }) {
       )}
       <td className={cellClass}>{collectionNames?.length}</td>
       <td className={cellClass}>{formatDate(createdAt)}</td>
+      {isProjectsPage && _id && (
+        <td className={cellClass}>
+          <button onClick={handleDelete} aria-label="Delete project">
+            <MdDelete size={18} />
+          </button>
+        </td>
+      )}
     </tr>
   );
 }
